@@ -1,0 +1,26 @@
+<h2>Gestion des Produits</h2>
+
+<form (ngSubmit)="addProduct()">
+  <input
+    type="text"
+    [(ngModel)]="newProduct.name"
+    name="name"
+    placeholder="Nom du produit"
+    required
+  />
+  <input
+    type="number"
+    [(ngModel)]="newProduct.quantity"
+    name="quantity"
+    placeholder="Quantité"
+    required
+  />
+  <button type="submit">Ajouter</button>
+</form>
+
+<ul>
+  <li *ngFor="let product of products()">
+    {{ product.name }} - {{ product.quantity }}
+    <button (click)="deleteProduct(product.id)">Supprimer</button>
+  </li>
+</ul>
