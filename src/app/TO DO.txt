@@ -1,0 +1,13 @@
+// TECHNICIEN
+-ajouter un technicien
+-modifier un technicien
+-supprimer un ttechnicien
+
+// MATERIEL
+-ajouter
+-modifier
+-assigné à un technicien
+-supprimer
+
+
+METTRE LA LISTE DES EQUIPEMENT ET OUTILLAGE SUR LE SERVEUR

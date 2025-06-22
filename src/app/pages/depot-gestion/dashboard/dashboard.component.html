@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <mat-card-title>📊 Tableau de bord global</mat-card-title>
+</mat-toolbar>
+
+<div class="dashboard-container">
+  <!-- Carte Consommables -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>📦 Consommables</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h2>{{ consumableCount }}</h2>
+      <p>Total de consommables enregistrés</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button color="accent" routerLink="/consumables">Voir les consommables</a>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Carte Mouvements -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>📈 Derniers Mouvements</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+      <a mat-button color="accent" routerLink="/movements">Voir les mouvements</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

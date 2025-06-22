@@ -1,0 +1,24 @@
+<!-- admin-depot-layout.component.html -->
+<mat-card class="admin-depot-layout">
+  <mat-card-title>🎯 Interface dépôt</mat-card-title>
+
+  <mat-card-content>
+    <!-- Navigation entre les sous-pages du dépôt -->
+    <nav class="nav-buttons">
+      <button routerLink="dashboard" routerLinkActive="active" mat-raised-button color="primary">
+        Dashboard
+      </button>
+      <button routerLink="vehicules" routerLinkActive="active" mat-raised-button color="primary">
+        Véhicules
+      </button>
+      <!-- Tu pourras ajouter d'autres boutons ici -->
+      <!--
+      <button routerLink="stock" mat-raised-button>Stock</button>
+      <button routerLink="consommables" mat-raised-button>Consommables</button>
+      -->
+    </nav>
+
+    <!-- Contenu dynamique injecté ici -->
+    <router-outlet></router-outlet>
+  </mat-card-content>
+</mat-card>

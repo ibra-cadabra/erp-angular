@@ -1,0 +1,72 @@
+<!-- depot-manager.component/html-->
+<h2>Gestion des attributions</h2>
+<h4 *ngIf="depot as d">{{d.name}} </h4>
+
+<div *ngIf="resources">
+  <h3>Consommables</h3>
+  <ul *ngIf="resources">
+    <li *ngFor="let c of depotConsumables">{{ c.name }} = {{c.quantity}} </li>
+  </ul>
+  
+  <h3>Matériels</h3>
+  <ul *ngIf="resources">
+    <li *ngFor="let m of depotMaterials">{{ m.name }} = {{m.quantity}} </li>
+  </ul>
+  
+  <h3>Véhicules</h3>
+  <ul *ngIf="resources">
+    <li *ngFor="let v of depotVehicules">{{ v.brand }} {{v.model}} - {{v.registrationPlate.trim().toLocaleUpperCase()}}  {{v.idTec}} </li>
+  </ul>
+</div>
+
+<ng-container *ngIf="resources() as r">
+  <table mat-table [dataSource]="depotTechnicians">
+
+    <!-- Nom -->
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef>Technicien</th>
+      <td mat-cell *matCellDef="let tech">{{ tech.name }} {{ tech.prename }}</td>
+    </ng-container>
+  
+    <!-- Véhicule -->
+    <ng-container matColumnDef="vehicule">
+      <th mat-header-cell *matHeaderCellDef>Véhicule</th>
+      <td mat-cell *matCellDef="let tech">
+        {{ getVehicule(tech.idTec)?.brand || 'Aucun' }}
+      </td>
+    </ng-container>
+  
+    <!-- Matériels -->
+    <ng-container matColumnDef="materiels">
+      <th mat-header-cell *matHeaderCellDef>Matériel</th>
+      <td mat-cell *matCellDef="let tech">
+        {{ getMaterialQuantity(tech.idTec) }} unité(s)
+      </td>
+      
+    </ng-container>
+  
+    <!-- Consommables -->
+    <ng-container matColumnDef="consommables">
+      <th mat-header-cell *matHeaderCellDef>Consommables</th>
+      <td mat-cell *matCellDef="let tech">
+        {{ getConsumables(tech.idTec).length }} attribué(s)
+      </td>
+    </ng-container>
+  
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let tech">
+        <button mat-icon-button (click)="openAttributionDialog(tech)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="['nom','vehicule','materiels','consommables','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['nom','vehicule','materiels','consommables','actions'];"></tr>
+  </table>
+</ng-container>
+
+
+

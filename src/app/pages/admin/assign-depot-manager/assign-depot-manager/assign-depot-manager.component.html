@@ -1,0 +1,43 @@
+<div class="p-4 max-w-3xl mx-auto">
+  <h2 class="text-xl font-bold mb-4">🛠️ Gérer le gérant d’un dépôt</h2>
+
+  <mat-card>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Sélection du dépôt -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Sélectionner un dépôt</mat-label>
+        <mat-select [(ngModel)]="selectedDepot().idDep" (selectionChange)="onDepotChange($event.value)">
+          <mat-option *ngFor="let depot of depots()" [value]="depot.idDep">
+            {{ depot.name }} (#{{ depot.idDep }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Sélection d'un gérant disponible -->
+      <mat-form-field appearance="outline" class="w-full" *ngIf="selectedDepot()">
+        <mat-label>Attribuer un gérant</mat-label>
+        <mat-select [(ngModel)]="selectedGerant().idUser" (selectionChange)="onGerantChange($event.value)">
+          <mat-option *ngFor="let g of availableGerants()" [value]="g.idUser">
+            {{ g.name }} {{ g.prename }} (id: {{ g.idUser }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Bouton d'action -->
+    <div class="mt-4 flex justify-end gap-2">
+      <button mat-stroked-button color="warn" (click)="removeGerant()" [disabled]="!currentGerant()">
+        Retirer gérant
+      </button>
+      <button mat-raised-button color="primary" (click)="assignGerant()" [disabled]="!selectedGerant()">
+        Assigner gérant
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Affichage du gérant actuel -->
+  <div *ngIf="currentGerant()" class="mt-6 p-4 border rounded shadow bg-gray-50">
+    <strong>Gérant actuel :</strong>
+    {{ currentGerant()?.name }} {{ currentGerant()?.prename }} (id: {{ currentGerant()?.idUser }})
+  </div>
+</div>

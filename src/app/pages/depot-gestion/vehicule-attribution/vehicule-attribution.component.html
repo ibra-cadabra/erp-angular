@@ -1,0 +1,33 @@
+<h2>🚗 Attribution des véhicules</h2>
+
+<div *ngIf="selectedTechnician(); else listeTech">
+  <h3>Technicien : {{ selectedTechnician()?.prename }} {{ selectedTechnician()?.name }}</h3>
+  <button mat-raised-button color="warn" (click)="clearSelection()">🔙 Retour</button>
+
+  <div *ngFor="let v of vehicules()">
+    <mat-card class="my-card">
+      <mat-card-title>{{ v.registrationPlate }}</mat-card-title>
+      <mat-card-content>
+        Affecté à : {{ getNomTec(v.idTec) || 'Dépôt' }}
+      </mat-card-content>
+      <mat-card-actions>
+        <button *ngIf="v.idTec !== selectedTechnician()?.idUser"
+                mat-button color="primary"
+                (click)="attribuer(v)">Attribuer</button>
+
+        <button *ngIf="v.idTec === selectedTechnician()?.idUser"
+                mat-button color="warn"
+                (click)="reprendre(v)">Reprendre</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #listeTech>
+  <h3>Sélectionner un technicien</h3>
+  <ul>
+    <li *ngFor="let t of technicians()" (click)="selectTechnician(t)" style="cursor: pointer;">
+      {{ t.prename }} {{ t.name }}
+    </li>
+  </ul>
+</ng-template>

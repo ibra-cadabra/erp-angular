@@ -1,0 +1,34 @@
+<mat-card class="mb-4">
+  <mat-card-title>Gestion des matériels</mat-card-title>
+  <mat-card-content>
+    <p>Attribuez ou reprenez des matériels aux techniciens.</p>
+  </mat-card-content>
+</mat-card>
+<mat-toolbar color="primary">{{ selectedDepotName() }}</mat-toolbar>
+<mat-card>
+  <form [formGroup]="form" type="submit" class="p-4">
+    <mat-form-field class="w-full">
+      <mat-label>Technicien</mat-label>
+      <mat-select formControlName="technicianId">
+        <mat-option *ngFor="let tech of technicians()" [value]="tech.idTec">{{ tech.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Matériel</mat-label>
+      <mat-select formControlName="materialId">
+        <mat-option *ngFor="let mat of materials()" [value]="mat.idMat">{{ mat.name }} ({{ mat.quantity }})</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Quantité</mat-label>
+      <input matInput type="number" formControlName="quantity" />
+    </mat-form-field>
+
+    <div class="flex gap-2">
+      <button mat-raised-button color="primary" (click)="submit('attribution')">Attribuer</button>
+      <button mat-raised-button color="warn" (click)="submit('reprise')">Reprendre</button>
+    </div>
+  </form>
+</mat-card>

@@ -1,0 +1,17 @@
+.admin-depot-layout {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .active {
+    background-color: #1976d2 !important;
+    color: white;
+  }
+  

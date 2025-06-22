@@ -1,0 +1,35 @@
+<div class="container">
+  <button mat-raised-button color="primary" routerLink="/user-form">
+    Ajouter un nouvel utilisateur
+  </button>
+  <h2>Liste des utilisateurs</h2>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Dépôt</th>
+        <th>Num Sécu</th>
+        <th>Véhicule</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users()">
+        <td>{{ user.name }}</td>
+        <td>{{ user.prename }}</td>
+        <td>{{ getDepotName(user.idDep) }}</td>
+        <td>{{ user.numSec }}</td>
+        <td>{{ getVehiculeName(user.idVeh) }}</td>
+        <td>
+          <button *ngIf="user.idUser !== undefined" (click)="removeUser(user.idUser)">🗑️ Supprimer</button>
+          <button mat-icon-button color="primary" [routerLink]="['/users', user.idUser]">
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

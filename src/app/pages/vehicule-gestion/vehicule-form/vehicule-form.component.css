@@ -1,0 +1,38 @@
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn {
+  background: #1976d2;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+}
+.full-width {
+  width: 100%;
+}
+
+.mat-card {
+  background: #fff;
+}
+
+.space-y-4 > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.mat-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.mat-form-field {
+  transition: opacity 0.3s ease;
+}
+
+.mat-form-field.ng-animating {
+  opacity: 0;
+}

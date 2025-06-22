@@ -1,0 +1,15 @@
+<div *ngIf="user">
+    <h2>👤 {{ user.name }} {{ user.prename }}</h2>
+    <p>Email : {{ user.email }}</p>
+    <p>Téléphone : {{ user.phone }}</p>
+    <p>Rôle : {{ user.role }}</p>
+    <p>username : {{ user.username }}</p>
+    <p *ngIf="user.idDep">Dépôt : {{ user.idDep }}</p>
+
+
+    <button mat-raised-button color="primary" (click)="giveAccess()">Donner accès</button>
+  </div>
+
+  <div *ngIf="!user">
+    <p>Chargement utilisateur...</p>
+  </div>

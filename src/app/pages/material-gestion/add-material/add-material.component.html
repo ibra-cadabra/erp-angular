@@ -1,0 +1,54 @@
+<!-- add-work-material.component.html -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom du matériel</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Catégorie</mat-label>
+    <mat-select formControlName="category" (selectionChange)="onCategoryChange()">
+      <mat-option value="véhicule">Véhicule</mat-option>
+      <mat-option value="outillage">Outillage</mat-option>
+      <mat-option value="sécurité">Équipement de sécurité</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Numéro de série / Plaque d'immatriculation -->
+  <ng-container *ngIf="!showQuantity">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ dynamicLabel }}</mat-label>
+      <input matInput formControlName="serialNumber" />
+    </mat-form-field>
+  </ng-container>
+
+  <!-- Champ quantité si catégorie est outillage ou sécurité -->
+  <ng-container *ngIf="showQuantity">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ dynamicLabel }}</mat-label>
+      <input matInput type="number" formControlName="quantity" />
+    </mat-form-field>
+  </ng-container>
+
+  <mat-form-field appearance="outline">
+    <mat-label>État</mat-label>
+    <mat-select formControlName="condition">
+      <mat-option value="neuf">Neuf</mat-option>
+      <mat-option value="bon">Bon</mat-option>
+      <mat-option value="endommagé">Endommagé</mat-option>
+      <mat-option value="en réparation">En réparation</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Affecté à</mat-label>
+    <mat-select formControlName="assignedTo">
+      <mat-option [value]="null">Aucun</mat-option>
+      <mat-option *ngFor="let tech of technicians" [value]="tech.idUser">
+        {{ tech.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Ajouter</button>
+</form>
