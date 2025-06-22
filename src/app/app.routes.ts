@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+<<<<<<< HEAD
 import { authGuard } from './pages/tools/features/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
@@ -135,3 +136,7 @@ export const appRoutes: Routes = [
   // 🚨 Catch-all
   { path: '**', redirectTo: '/login' }
 ];
+=======
+
+export const routes: Routes = [];
+>>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874

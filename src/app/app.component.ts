@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
@@ -33,4 +34,18 @@ export class AppComponent implements OnInit{
     this.depotService.fetchDepots();
   }
   
+=======
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class AppComponent {
+  title = 'erp-angular';
+>>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
 }
