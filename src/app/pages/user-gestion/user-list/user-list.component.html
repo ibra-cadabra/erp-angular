@@ -1,35 +1,116 @@
-<div class="container">
-  <button mat-raised-button color="primary" routerLink="/user-form">
-    Ajouter un nouvel utilisateur
-  </button>
-  <h2>Liste des utilisateurs</h2>
-  <table class="user-table">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Dépôt</th>
-        <th>Num Sécu</th>
-        <th>Véhicule</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users()">
-        <td>{{ user.name }}</td>
-        <td>{{ user.prename }}</td>
-        <td>{{ getDepotName(user.idDep) }}</td>
-        <td>{{ user.numSec }}</td>
-        <td>{{ getVehiculeName(user.idVeh) }}</td>
-        <td>
-          <button *ngIf="user.idUser !== undefined" (click)="removeUser(user.idUser)">🗑️ Supprimer</button>
-          <button mat-icon-button color="primary" [routerLink]="['/users', user.idUser]">
-            <mat-icon>visibility</mat-icon>
-          </button>
+<div class="user-list-container">
 
-        </td>
+    <!-- ✅ En-tête de la section utilisateurs -->
+    <mat-toolbar class="user-toolbar" color="primary">
+        <span>👥 Liste des utilisateurs</span>
+        <span class="spacer"></span>
+        <button mat-icon-button color="accent" matTooltip="Ajouter un utilisateur">
+            <mat-icon>person_add</mat-icon>
+        </button>
+    </mat-toolbar>
 
-      </tr>
-    </tbody>
-  </table>
+    <!-- 🔍 Barre de recherche -->
+    <mat-form-field appearance="outline" class="filter">
+        <mat-label>Rechercher</mat-label>
+        <input matInput placeholder="Nom, prénom, rôle" (input)="applyFilter($event)" />
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <!-- 🖥️ Table desktop -->
+    <div class="user-table-wrapper">
+        <table mat-table [dataSource]="filteredUsers()" class="mat-elevation-z2 user-table" *ngIf="filteredUsers().length">
+
+            <!-- ID -->
+            <ng-container matColumnDef="idUser">
+                <th mat-header-cell *matHeaderCellDef>#</th>
+                <td mat-cell *matCellDef="let u">{{ u.idUser }}</td>
+            </ng-container>
+
+            <!-- Nom -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Nom</th>
+                <td mat-cell *matCellDef="let u">{{ u.name }}</td>
+            </ng-container>
+
+            <!-- Prénom -->
+            <ng-container matColumnDef="prename">
+                <th mat-header-cell *matHeaderCellDef>Prénom</th>
+                <td mat-cell *matCellDef="let u">{{ u.prename }}</td>
+            </ng-container>
+
+            <!-- Rôle -->
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef>Rôle</th>
+                <td mat-cell *matCellDef="let u">{{ u.role }}</td>
+            </ng-container>
+
+            <!-- Actions -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let u">
+
+                    <!-- 👁️ Voir -->
+                    <button mat-icon-button color="primary" (click)="view(u)" matTooltip="Voir les détails">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+
+                    <!-- ✏️ Modifier -->
+                    <button mat-icon-button color="accent" (click)="edit(u)" matTooltip="Modifier">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <!-- 🔐 Accès -->
+                    <ng-container *ngIf="u.username; else noAccess">
+                        <mat-icon color="primary" matTooltip="Accès activé">vpn_key</mat-icon>
+                    </ng-container>
+                    <ng-template #noAccess>
+                        <button mat-icon-button color="warn" (click)="setAccess(u)" matTooltip="Donner accès">
+                            <mat-icon>lock_open</mat-icon>
+                        </button>
+                    </ng-template>
+
+                    <!-- 🗑️ Supprimer -->
+                    <button mat-icon-button color="warn" [disabled]="u.username" (click)="remove(u)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+
+                </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="['idUser', 'name', 'prename', 'role', 'actions']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['idUser', 'name', 'prename', 'role', 'actions']"></tr>
+        </table>
+    </div>
+
+    <!-- 📱 Version mobile : cartes -->
+    <div class="user-card-container">
+        <mat-card class="user-card mat-elevation-z3" *ngFor="let u of filteredUsers()">
+            <mat-card-header>
+                <div mat-card-avatar class="user-avatar">
+                    <mat-icon>person</mat-icon>
+                </div>
+                <mat-card-title>{{ u.name }} {{ u.prename }}</mat-card-title>
+                <mat-card-subtitle>{{ u.role }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <p>ID : {{ u.idUser }}</p>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <!-- Table -->
+                <button mat-icon-button class="action-view" (click)="view(u)" matTooltip="Voir">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button class="action-edit" (click)="edit(u)" matTooltip="Modifier">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="action-delete" (click)="remove(u)" matTooltip="Supprimer">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

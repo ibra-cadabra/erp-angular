@@ -3,11 +3,6 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-<<<<<<< HEAD
-    "erp-stock": {
-      "projectType": "application",
-      "schematics": {},
-=======
     "erp-angular": {
       "projectType": "application",
       "schematics": {
@@ -15,7 +10,6 @@
           "style": "scss"
         }
       },
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -23,48 +17,30 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-<<<<<<< HEAD
-            "outputPath": "dist/erp-stock",
-=======
             "outputPath": "dist/erp-angular",
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-<<<<<<< HEAD
-=======
             "inlineStyleLanguage": "scss",
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
-<<<<<<< HEAD
-              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles/custom-theme.scss",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
-=======
-              "src/styles.scss"
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
-<<<<<<< HEAD
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-=======
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
               "budgets": [
                 {
                   "type": "initial",
@@ -73,21 +49,12 @@
                 },
                 {
                   "type": "anyComponentStyle",
-<<<<<<< HEAD
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },            
-=======
                   "maximumWarning": "2kB",
                   "maximumError": "4kB"
                 }
               ],
               "outputHashing": "all"
             },
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -100,20 +67,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-<<<<<<< HEAD
-              "buildTarget": "erp-stock:build:production"
-            },
-            "development": {
-              "buildTarget": "erp-stock:build:development",
-              "proxyConfig": "proxy.conf.json"
-            }            
-=======
               "buildTarget": "erp-angular:build:production"
             },
             "development": {
-              "buildTarget": "erp-angular:build:development"
+              "buildTarget": "erp-angular:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
           },
           "defaultConfiguration": "development"
         },
@@ -128,23 +87,17 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
-<<<<<<< HEAD
-=======
-            "inlineStyleLanguage": "scss",
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
+            "inlineStyleLanguage": "css",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
-<<<<<<< HEAD
-              "@angular/material/prebuilt-themes/azure-blue.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
-=======
-              "src/styles.scss"
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
             ],
             "scripts": []
           }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { AdminDepotLayoutComponent } from '../../depot-gestion/admin-depot-layout/admin-depot-layout.component';
-import { VehiculeAttributionComponent } from '../../depot-gestion/vehicule-attribution/vehicule-attribution.component';
+import { AdminDepotLayoutComponent } from '../depot-gestion/admin-depot-layout/admin-depot-layout.component';
+import { VehiculeAttributionComponent } from '../depot-gestion/vehicule-attribution/vehicule-attribution.component';
 
 export const adminDepotRoutes: Routes = [
   {

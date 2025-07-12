@@ -1,38 +1,51 @@
-.input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+/* Container du formulaire */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.btn {
-  background: #1976d2;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-}
+/* Champs en pleine largeur */
 .full-width {
   width: 100%;
 }
 
+/* Centrage de la carte */
 .mat-card {
-  background: #fff;
+  max-width: 600px;
+  margin: auto;
 }
 
-.space-y-4 > *:not(:last-child) {
-  margin-bottom: 1rem;
-}
-
-.mat-card-title {
+/* Titre */
+mat-card-title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-.mat-form-field {
-  transition: opacity 0.3s ease;
+  font-weight: 600;
+  text-align: center;
 }
 
-.mat-form-field.ng-animating {
-  opacity: 0;
+/* Icônes de validation */
+mat-icon[matSuffix] {
+  margin-left: 8px;
+}
+
+/* Espacement sous les champs */
+mat-form-field {
+  margin-bottom: 12px;
+}
+
+/* Bouton de soumission */
+button[type="submit"] {
+  min-width: 150px;
+  font-weight: 500;
+}
+
+/* Responsivité simple */
+@media (max-width: 600px) {
+  .mat-card {
+    padding: 16px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
 }

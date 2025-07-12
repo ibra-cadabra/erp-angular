@@ -1,15 +1,15 @@
-import { Component, effect, OnInit, Signal, signal, ViewChild } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { MaterialService } from '../../../services/material.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../../../modules/material.module';
-import { Material } from '../../../models/material';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { map, Observable, startWith } from 'rxjs';
+import {Component, effect, OnInit, Signal, signal, ViewChild} from '@angular/core';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {MaterialService} from '../../../services/material.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {CommonModule} from '@angular/common';
+import {MaterialModule} from '../../../modules/material.module';
+import {Material} from '../../../models/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {map, Observable, startWith} from 'rxjs';
 
 @Component({
   selector: 'app-depot',
@@ -76,7 +76,7 @@ export class DepotComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.names
-      .filter((name): name is string => typeof name === 'string')
+      .filter((name): name is string => true)
       .filter(name => name.toLowerCase().includes(filterValue));
   }
   ngAfterViewInit(): void {
@@ -84,8 +84,7 @@ export class DepotComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   applyFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = value;
+    this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
   }
   editMaterial(material: Material) {
     this.selectedMaterial = material;

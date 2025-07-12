@@ -1,120 +1,106 @@
 <mat-card class="tech-card">
-  <mat-card-title>👷 Ajouter ou Modifier un nouveau Technicien</mat-card-title>
+    <mat-card-title>👷 {{ isEditMode ? 'Modifier' : 'Ajouter' }} un technicien</mat-card-title>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
 
-    <!-- NOM & PRÉNOM -->
-    <mat-form-field appearance="outline">
-      <mat-label>Nom</mat-label>
-      <input matInput formControlName="name" />
-      <mat-error *ngIf="form.get('name')?.hasError('required')">Nom requis</mat-error>
-    </mat-form-field>
+        <!-- NOM / PRÉNOM -->
+        <mat-form-field appearance="outline">
+            <mat-label>Nom</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Prénom</mat-label>
-      <input matInput formControlName="prename" />
-      <mat-error *ngIf="form.get('prename')?.hasError('required')">Prénom requis</mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Prénom</mat-label>
+            <input matInput formControlName="prename" />
+        </mat-form-field>
 
-    <!-- ADRESSE -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Rue</mat-label>
-      <input
-        matInput
-        [matAutocomplete]="auto"
-        formControlName="address"
-      />
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setAddressFields($event.option.value)">
-        <mat-option *ngFor="let suggestion of filteredStreets | async" [value]="suggestion">
-          {{ suggestion.label }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        <!-- ADRESSE (autocomplete API Gouv) -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Adresse</mat-label>
+            <input matInput [matAutocomplete]="auto" formControlName="address" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setAddressFields($event.option.value)">
+                <mat-option *ngFor="let suggestion of filteredStreets | async" [value]="suggestion">
+                    {{ suggestion.label }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Ville</mat-label>
-      <input matInput formControlName="city" readonly />
-    </mat-form-field>
+        <!-- VILLE / CODE POSTAL -->
+        <mat-form-field appearance="outline">
+            <mat-label>Ville</mat-label>
+            <input matInput formControlName="city" readonly />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Code Postal</mat-label>
-      <input matInput formControlName="postaleCode" readonly />
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Code Postal</mat-label>
+            <input matInput formControlName="postaleCode" readonly />
+        </mat-form-field>
 
-    <!-- SÉCURITÉ SOCIALE -->
-    <mat-form-field appearance="outline">
-      <mat-label>Numéro de sécurité sociale</mat-label>
-      <input matInput formControlName="numSec" type="text" />
-      <mat-error *ngIf="form.get('numSec')?.hasError('pattern')">15 chiffres requis</mat-error>
-      <mat-error *ngIf="form.get('numSec')?.hasError('duplicate')">Ce numéro est déjà utilisé.</mat-error>
-    </mat-form-field>
+        <!-- SÉCURITÉ SOCIALE -->
+        <mat-form-field appearance="outline">
+            <mat-label>Numéro de sécurité sociale</mat-label>
+            <input matInput formControlName="numSec" />
+        </mat-form-field>
 
-    <!-- RÔLE ET STATUT -->
-    <mat-form-field appearance="outline">
-      <mat-label>Rôle</mat-label>
-      <mat-select formControlName="role">
-        <mat-option value="dirigeant">Dirigeant</mat-option>
-        <mat-option value="administrateur">Administrateur</mat-option>
-        <mat-option value="gerant">Gérant</mat-option>
-        <mat-option value="technicien">Technicien</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- RÔLE / STATUT -->
+        <mat-form-field appearance="outline">
+            <mat-label>Rôle</mat-label>
+            <mat-select formControlName="role">
+                <mat-option value="dirigeant">Dirigeant</mat-option>
+                <mat-option value="administrateur">Administrateur</mat-option>
+                <mat-option value="gerant">Gérant</mat-option>
+                <mat-option value="technicien">Technicien</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Statut</mat-label>
-      <mat-select formControlName="status">
-        <mat-option value="auto-entrepreneur">Auto-entrepreneur</mat-option>
-        <mat-option value="salarié">Salarié</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Statut</mat-label>
+            <mat-select formControlName="status">
+                <mat-option value="salarié">Salarié</mat-option>
+                <mat-option value="auto-entrepreneur">Auto-entrepreneur</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-    <!-- SIRET uniquement pour auto-entrepreneur -->
-    <mat-form-field appearance="outline" *ngIf="isAutoEntrepreneur">
-      <mat-label>Numéro de SIRET</mat-label>
-      <input matInput formControlName="numSiret" type="text" />
-      <mat-error *ngIf="form.get('numSiret')?.hasError('required')">Champ requis</mat-error>
-      <mat-error *ngIf="form.get('numSiret')?.hasError('pattern')">14 chiffres requis</mat-error>
-      <mat-error *ngIf="form.get('numSiret')?.hasError('duplicate')">SIRET déjà utilisé</mat-error>
-    </mat-form-field>
+        <!-- SIRET pour auto-entrepreneur -->
+        <mat-form-field appearance="outline" *ngIf="isAutoEntrepreneur">
+            <mat-label>SIRET</mat-label>
+            <input matInput formControlName="numSiret" />
+        </mat-form-field>
 
-    <!-- AFFECTATION DÉPÔT & CAMIONNETTE -->
-    <mat-form-field appearance="outline">
-      <mat-label>Dépôt rattaché</mat-label>
-      <mat-select formControlName="idDep">
-        <mat-option *ngFor="let d of depots()" [value]="d.idDep">{{ d.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <!-- DÉPÔT / VÉHICULE -->
+        <mat-form-field appearance="outline">
+            <mat-label>Dépôt</mat-label>
+            <mat-select formControlName="idDep">
+                <mat-option *ngFor="let d of depots()" [value]="d.idDep">{{ d.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Camionnette attribuée</mat-label>
-      <mat-select formControlName="idVeh">
-        <mat-option *ngFor="let v of vehicules()" [value]="v.idVeh">
-          {{ v.brand }} - {{ v.registrationPlate }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Camionnette</mat-label>
+            <mat-select formControlName="idVeh">
+                <mat-option *ngFor="let v of vehicules()" [value]="v.idVeh">
+                    {{ v.brand }} - {{ v.registrationPlate }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
 
-    <!-- CONTACT -->
-    <mat-form-field appearance="outline">
-      <mat-label>Téléphone</mat-label>
-      <input matInput formControlName="phone" />
-      <mat-error *ngIf="form.get('phone')?.hasError('pattern')">Numéro invalide</mat-error>
-      <mat-error *ngIf="form.get('phone')?.hasError('duplicate')">Téléphone déjà utilisé</mat-error>
-    </mat-form-field>
+        <!-- CONTACT -->
+        <mat-form-field appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput formControlName="phone" />
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email" />
-      <mat-error *ngIf="form.get('email')?.hasError('email')">Format invalide</mat-error>
-      <mat-error *ngIf="form.get('email')?.hasError('duplicate')">Email déjà utilisé</mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+        </mat-form-field>
 
-    <!-- ACTIONS -->
-    <div class="form-actions">
-      <button mat-stroked-button type="button" (click)="form.reset()">Annuler</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-        Ajouter
-      </button>
-    </div>
-  </form>
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <button mat-stroked-button type="button" routerLink="/users">Annuler</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+                {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+            </button>
+        </div>
+    </form>
 </mat-card>

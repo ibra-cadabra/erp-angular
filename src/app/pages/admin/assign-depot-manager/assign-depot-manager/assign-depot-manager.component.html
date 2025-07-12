@@ -6,7 +6,7 @@
       <!-- Sélection du dépôt -->
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Sélectionner un dépôt</mat-label>
-        <mat-select [(ngModel)]="selectedDepot().idDep" (selectionChange)="onDepotChange($event.value)">
+        <mat-select [(ngModel)]="selectedDepot()!.idDep" (selectionChange)="onDepotChange($event.value)">
           <mat-option *ngFor="let depot of depots()" [value]="depot.idDep">
             {{ depot.name }} (#{{ depot.idDep }})
           </mat-option>
@@ -16,7 +16,7 @@
       <!-- Sélection d'un gérant disponible -->
       <mat-form-field appearance="outline" class="w-full" *ngIf="selectedDepot()">
         <mat-label>Attribuer un gérant</mat-label>
-        <mat-select [(ngModel)]="selectedGerant().idUser" (selectionChange)="onGerantChange($event.value)">
+        <mat-select [(ngModel)]="selectedGerant()!.idUser" (selectionChange)="onGerantChange($event.value)">
           <mat-option *ngFor="let g of availableGerants()" [value]="g.idUser">
             {{ g.name }} {{ g.prename }} (id: {{ g.idUser }})
           </mat-option>
@@ -38,6 +38,6 @@
   <!-- Affichage du gérant actuel -->
   <div *ngIf="currentGerant()" class="mt-6 p-4 border rounded shadow bg-gray-50">
     <strong>Gérant actuel :</strong>
-    {{ currentGerant()?.name }} {{ currentGerant()?.prename }} (id: {{ currentGerant()?.idUser }})
+      {{ currentGerant()?.name }} {{ currentGerant()?.prename }} (id: {{ currentGerant()?.idUser }})
   </div>
 </div>

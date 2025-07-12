@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Consumable } from '../models/consumable.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../environment/environment';
+import {AuthService} from "./auth.service";
 
 @Injectable({ providedIn: 'root' })
 export class ConsumableService {
@@ -13,7 +14,9 @@ export class ConsumableService {
 
   private readonly apiUrl = `${environment.apiUrl}/consumables`;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private snackBar: MatSnackBar) {}
 
   loadConsumables() {
     this.http.get<Consumable[]>(this.apiUrl).subscribe({
@@ -25,14 +28,27 @@ export class ConsumableService {
     });
   }
   addConsumable(consumable: Partial<Consumable>) {
-    // Vérifie si un consommable avec le même nom existe déjà
-    const exists = this._consumables().some(c => c.name.trim().toLowerCase() === consumable.name?.trim().toLowerCase());
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      console.error('❌ Utilisateur non connecté');
+      return;
+    }
+
+    const createdBy = user.idUser;
+
+    const exists = this._consumables().some(
+        c => c.name.trim().toLowerCase() === consumable.name?.trim().toLowerCase()
+            && c.idDep === consumable.idDep
+    );
 
     if (exists) {
       console.warn('⛔ Le consommable existe déjà :', consumable.name);
-      return; // On arrête ici, pas de requête POST
+      return;
     }
-    this.http.post<Consumable>(this.apiUrl, consumable).subscribe({
+
+    const payload = { ...consumable, createdBy };
+
+    this.http.post<Consumable>(this.apiUrl, payload).subscribe({
       next: (newItem) => {
         this._consumables.update(consumables => [...consumables, newItem]);
         console.log('✅ Consommable ajouté :', newItem);
@@ -41,7 +57,7 @@ export class ConsumableService {
     });
   }
   deleteConsumable(idCons: number) {
-    this.http.delete(`${this.apiUrl}/by-idCons/${idCons}`).subscribe({
+    this.http.delete(`${this.apiUrl}/${idCons}`).subscribe({
       next: () => {
         this._consumables.update(consumables => consumables.filter(c => c.idCons !== idCons));
         console.log('✅ Consommable supprimé');
@@ -50,7 +66,7 @@ export class ConsumableService {
     });
   }
   updateConsumable(idCons: number, changes: Partial<Consumable>) {
-    this.http.put<Consumable>(`${this.apiUrl}/by-idCons/${idCons}`, changes).subscribe({
+    this.http.put<Consumable>(`${this.apiUrl}/${idCons}`, changes).subscribe({
       next: updated => {
         this._consumables.update(consumables =>
           consumables.map(c => c.idCons === idCons ? updated : c)
@@ -60,9 +76,5 @@ export class ConsumableService {
       },
       error: err => console.error('Erreur update consommable', err)
     });
-  }
-
-  getConsumableCount(): number {
-    return this._consumables().length;
   }
 }

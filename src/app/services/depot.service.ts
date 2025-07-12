@@ -1,3 +1,4 @@
+// depot.service.ts
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Depot } from '../models/depot.model';
@@ -13,7 +14,6 @@ export class DepotService {
 
   private _depots = signal<Depot[]>([]);
   readonly depots = this._depots.asReadonly();
-
   private _resources = signal<DepotResources>({
     materials: [],
     consumables: [],
@@ -22,7 +22,6 @@ export class DepotService {
     attributions: []
   });
   readonly resources = this._resources.asReadonly();
-
   private auth = inject(AuthService);
   private userService = inject(UserService);
 
@@ -62,10 +61,16 @@ export class DepotService {
   // 📦 Charger les ressources du dépôt
   getDepotResources(id: number) {
     this.http.get<DepotResources>(`${this.baseUrl}/${id}/resources`).subscribe({
-      next: data => this._resources.set(data),
-      error: err => console.error('Erreur de chargement des ressources dépôt', err)
+      next: data => {
+        console.log('✅ Ressources reçues du backend :', data);
+        this._resources.set(data);
+        console.log('✅ Ressources reçues :', this._resources());
+
+      },
+      error: err => console.error('❌ Erreur de chargement des ressources dépôt', err)
     });
   }
+
 
   // 🔄 Version observable de getDepotResources (sans effet de bord)
   getDepotResources$(id: number): Observable<DepotResources> {

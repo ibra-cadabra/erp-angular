@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+// ✅ Palette M3 native fournie par Angular Material
+$my-theme: mat.define-theme((
+        color: (
+                primary: mat.$mblue,
+                tertiary: mat.$m3-purple
+        ),
+        typography: mat.m2-define-typography-config(),
+        density: 0
+));
+
+@include mat.core();
+@include mat.all-component-themes($my-theme);

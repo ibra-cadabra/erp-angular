@@ -1,8 +1,8 @@
 import { Consumable } from "./consumable.model";
 import { Vehicule } from "./vehicule.model";
 import { User } from "./user.model";
-import { Material } from "../models/material.js";
 import { Attribution } from "./attribution.model";
+import {Material} from "./material";
 
 export interface DepotResources {
   attributions: Attribution[];

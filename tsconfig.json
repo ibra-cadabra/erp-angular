@@ -10,27 +10,18 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-<<<<<<< HEAD
     "isolatedModules": true,
-    "esModuleInterop": true,
-=======
-    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-<<<<<<< HEAD
-    "module": "ES2022"
-=======
     "module": "ES2022",
     "lib": [
       "ES2022",
       "dom"
     ]
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

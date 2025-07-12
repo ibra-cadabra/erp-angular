@@ -25,23 +25,12 @@
     <mat-form-field appearance="outline">
       <mat-label>Quantité</mat-label>
       <input matInput type="number" formControlName="quantity" required />
-      <mat-error *ngIf="form.get('quantity')?.hasError('required')">
-        La quantité est requise
-      </mat-error>
-      <mat-error *ngIf="form.get('quantity')?.hasError('min')">
-        La quantité doit être supérieure à 0
-      </mat-error>
+
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Prix Unitaire</mat-label>
       <input matInput type="number" formControlName="unitPrice" />
-      <mat-error *ngIf="form.get('unitPrice')?.hasError('required')">
-        Le prix est requis
-      </mat-error>
-      <mat-error *ngIf="form.get('unitPrice')?.hasError('min')">
-        Le prix doit être supérieur à 0
-      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -51,9 +40,6 @@
           {{ d.name }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="form.get('idDep')?.hasError('required')">
-        Le dépôt est requis
-      </mat-error>
     </mat-form-field>
 
     <div class="form-actions">

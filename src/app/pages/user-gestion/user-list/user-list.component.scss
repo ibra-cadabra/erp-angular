@@ -1,0 +1,143 @@
+.user-list-container {
+  padding: 16px;
+  color: white;
+
+  .user-toolbar {
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-color: #1e1e1e;
+    color: #90caf9;
+    font-weight: bold;
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    button {
+      color: #e91e63;
+    }
+  }
+
+  .filter {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+
+    input {
+      color: white;
+    }
+
+    mat-icon {
+      color: #90caf9;
+    }
+  }
+
+  .user-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+
+  .user-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    animation: fadeIn 0.4s ease;
+
+    th {
+      background-color: #252525;
+      color: #90caf9;
+      font-weight: 600;
+      padding: 12px 16px;
+    }
+
+    td {
+      background-color: #1a1a1a;
+      color: antiquewhite;
+      padding: 12px 16px;
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background-color: rgba(144, 202, 249, 1);
+    }
+
+    button {
+      margin: 0 2px;
+    }
+  }
+
+  // 🎨 Actions avec couleurs différenciées
+  .action-view mat-icon {
+    color: #64b5f6; // Bleu clair (voir)
+  }
+
+  .action-edit mat-icon {
+    color: #ffb300; // Orange (modifier)
+  }
+
+  .action-delete mat-icon {
+    color: #f44336; // Rouge (supprimer)
+  }
+
+  .user-card-container {
+    display: none;
+  }
+
+  .user-card {
+    margin-bottom: 16px;
+    background-color: #1e1e1e;
+    color: gray;
+    animation: fadeIn 0.3s ease;
+
+    .user-avatar {
+      background-color: #90caf9;
+      color: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    mat-card-actions {
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        margin-left: 4px;
+
+        &.action-view mat-icon {
+          color: #64b5f6;
+        }
+
+        &.action-edit mat-icon {
+          color: #ffb300;
+        }
+
+        &.action-delete mat-icon {
+          color: #f44336;
+        }
+      }
+    }
+  }
+
+  // 📱 Responsive switch: show cards only on mobile
+  @media (max-width: 768px) {
+    .user-table-wrapper {
+      display: none;
+    }
+
+    .user-card-container {
+      display: block;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,28 +1,46 @@
 <div class="dashboard-container">
-  <!-- 🧾 Cartes statistiques -->
-  <section class="kpi-section">
-    <mat-card class="kpi-card" *ngFor="let kpi of ['Utilisateurs', 'Dépôts', 'Matériels', 'Véhicules']">
-      <mat-card-title>{{ kpi }}</mat-card-title>
-      <mat-card-content>
-        <h2>--</h2> <!-- À remplacer par une future valeur -->
-      </mat-card-content>
-    </mat-card>
-  </section>
+    <h1>📊 Tableau de bord administrateur</h1>
 
-  <!-- 📊 Graphiques statistiques -->
-  <section class="chart-section">
+    <!-- Section résumé -->
+    <div class="summary-cards">
+        <mat-card class="stat-card">
+            <mat-card-title>👤 Utilisateurs</mat-card-title>
+            <mat-card-content>{{ totalUsers }}</mat-card-content>
+        </mat-card>
+        <mat-card class="stat-card">
+            <mat-card-title>🏢 Dépôts</mat-card-title>
+            <mat-card-content>{{ totalDepots }}</mat-card-content>
+        </mat-card>
+        <mat-card class="stat-card">
+            <mat-card-title>🚐 Véhicules</mat-card-title>
+            <mat-card-content>{{ totalVehicules }}</mat-card-content>
+        </mat-card>
+        <mat-card class="stat-card">
+            <mat-card-title>🛠️ Matériels</mat-card-title>
+            <mat-card-content>{{ totalMaterials }}</mat-card-content>
+        </mat-card>
+    </div>
+
+    <!-- 🔗 Bouton vers historique -->
+    <mat-card class="history-card">
+        <mat-card-title>📜 Historique des attributions</mat-card-title>
+        <mat-card-content>
+            <p>Consultez toutes les opérations d'attribution ou de reprise de matériel et de véhicules.</p>
+            <button mat-raised-button color="primary" routerLink="/admin-attributions">
+                <mat-icon>history</mat-icon>
+                Voir l'historique
+            </button>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- 📊 Graphique des matériaux les plus disponibles -->
     <mat-card class="chart-card">
-      <mat-card-title>📈 Consommables les plus utilisés</mat-card-title>
-      <mat-card-content>
-        <canvas baseChart></canvas> <!-- À compléter avec Chart.js plus tard -->
-      </mat-card-content>
+        <mat-card-title>📈 Top 5 des matériels les plus disponibles</mat-card-title>
+        <mat-card-content>
+            <canvas baseChart
+                    [data]="chartData"
+                    [type]="'bar'">
+            </canvas>
+        </mat-card-content>
     </mat-card>
-  </section>
-
-  <!-- ⚙️ Actions rapides -->
-  <section class="quick-actions">
-    <button mat-raised-button color="primary" routerLink="/users">👤 Gérer les utilisateurs</button>
-    <button mat-raised-button color="accent" routerLink="/stock">📦 Gérer le stock</button>
-    <button mat-raised-button color="warn" routerLink="/depot">🏢 Gérer les dépôts</button>
-  </section>
 </div>

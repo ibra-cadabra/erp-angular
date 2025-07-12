@@ -1,98 +1,110 @@
-import { Component, effect, inject, signal } from '@angular/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { UserService } from '../../../services/user.service';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { DepotService } from '../../../services/depot.service';
+import { AuthService } from '../../../services/auth.service';
 import { VehiculeService } from '../../../services/vehicule.service';
-import { Vehicule } from '../../../models/vehicule.model';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../../../models/user.model';
+import { Vehicule } from '../../../models/vehicule.model';
+import { MaterialModule } from "../../../modules/material.module";
+import { CommonModule, NgFor } from "@angular/common";
+import { DepotContextService } from '../../../services/depotContexteService';
 
 @Component({
   selector: 'app-vehicule-attribution',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgFor,
-    NgIf,
-    MatSnackBarModule,
-    MatCardModule,
-    MatButtonModule
-  ],
+  imports: [MaterialModule, NgFor, CommonModule],
   templateUrl: './vehicule-attribution.component.html',
   styleUrls: ['./vehicule-attribution.component.css']
 })
-export class VehiculeAttributionComponent {
-  technicians = signal<User[]>([]);
-  selectedTechnician = signal<User | null>(null);
-
+export class VehiculeAttributionComponent implements OnInit {
+  private depotService = inject(DepotService);
   private vehiculeService = inject(VehiculeService);
-  readonly vehicules = this.vehiculeService.vehicules;
+  private auth = inject(AuthService);
+  private snackBar = inject(MatSnackBar);
+  private depotContext = inject(DepotContextService);
 
-  constructor(
-    private userService: UserService,
-    private snackBar: MatSnackBar
-  ) {
-    this.userService.loadUsers();
-    this.loadData();
-    effect(() => this.selectedTechnician());
-  }
+  depotId = signal<number | null>(null);
+  technicians = computed(() => this.depotService.resources().technicians);
+  vehicules = computed(() => this.depotService.resources().vehicules);
 
-  loadData() {
-    this.userService.getTechniciansObservable().subscribe(data => this.technicians.set(data));
-    this.vehiculeService.loadVehicules();
-  }
+  ngOnInit(): void {
+    const contextId = this.depotContext.idDep();
+    const userIdDep = this.auth.user()?.idDep;
 
-  selectTechnician(technician: User) {
-    this.selectedTechnician.set(technician);
-  }
-
-  clearSelection() {
-    this.selectedTechnician.set(null);
-  }
-
-  getNomTec(idTec: number | null): string | null {
-    if (!idTec) return null;
-    const t = this.technicians().find(t => t.idUser === idTec);
-    return t ? `${t.prename} ${t.name}` : null;
-  }
-
-  isVehiculeAssignedTo(vehicule: Vehicule): boolean {
-    return this.selectedTechnician()?.idUser === vehicule.idTec;
-  }
-
-  attribuer(vehicule: Vehicule) {
-    const idVeh = Number(vehicule.idVeh);
-    const idTec = this.selectedTechnician()?.idUser;
-
-    if (!idTec) {
-      this.snackBar.open('❌ Aucun technicien sélectionné.', 'Fermer', { duration: 3000 });
-      return;
+    const idDepToUse = contextId ?? userIdDep;
+    if (idDepToUse) {
+      this.depotId.set(idDepToUse);
+      this.depotService.getDepotResources(idDepToUse);
+    } else {
+      console.warn('❗ Aucun idDep trouvé pour charger les ressources');
     }
+  }
 
-    this.vehiculeService.assignVehicule({ idVeh, idTec }).subscribe({
+  // ✅ Attribuer un véhicule
+  attribuerVehicule(vehicule: Vehicule, tech: User) {
+    const currentUser = this.auth.user();
+    this.vehiculeService.assignVehicule({
+      _id: vehicule._id,
+      idTec: tech.idUser!,
+      idDep: null,  // on n'a pas besoin de préciser ici, le backend mettra `idDep = null`
+      createdBy: currentUser!.idUser
+
+    }).subscribe({
       next: () => {
         this.snackBar.open('✅ Véhicule attribué', 'Fermer', { duration: 3000 });
-        this.loadData();
+        this.refreshData();
       },
-      error: () => {
+      error: err => {
+        console.error('❌ Erreur attribution', err);
         this.snackBar.open('❌ Erreur attribution', 'Fermer', { duration: 3000 });
       }
     });
   }
 
-  reprendre(vehicule: Vehicule) {
-    const idVeh = Number(vehicule.idVeh);
-    const idTec = null;
+  // ♻️ Rétracter un véhicule
+  reprendreVehicule(vehicule: Vehicule) {
+    const idDep = this.depotId();
+    const currentUser = this.auth.user();
+    if (!idDep) return;
 
-    this.vehiculeService.assignVehicule({ idVeh, idTec }).subscribe({
+    this.vehiculeService.assignVehicule({
+      _id: vehicule._id,
+      idTec: null,
+      idDep: idDep,
+      createdBy: currentUser!.idUser
+    }).subscribe({
       next: () => {
         this.snackBar.open('♻️ Véhicule repris', 'Fermer', { duration: 3000 });
-        this.loadData();
+        this.refreshData();
       },
-      error: () => {
+      error: err => {
+        console.error('❌ Erreur reprise', err);
         this.snackBar.open('❌ Erreur reprise', 'Fermer', { duration: 3000 });
       }
     });
+  }
+
+  // Vérifie si le technicien a un véhicule
+  hasVehicule(tech: User): Vehicule | null {
+    return this.vehicules().find(v => v.idTec === tech.idUser) || null;
+  }
+
+  // Nom du technicien assigné
+  getNomTechnicien(idTec: number | null): string {
+    const tech = this.technicians().find(t => t.idUser === idTec);
+    return tech ? `${tech.prename} ${tech.name}` : 'Non attribué';
+  }
+
+  getVehiculesDisponibles(): Vehicule[] {
+    return this.vehicules().filter(v => !v.idTec);
+  }
+
+  vehiculeAffecte(tech: User): Vehicule | null {
+    return this.vehicules().find(v => v.idTec === tech.idUser) || null;
+  }
+
+  private refreshData() {
+    const id = this.depotId();
+    if (id) this.depotService.getDepotResources(id);
   }
 }

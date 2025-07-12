@@ -13,7 +13,7 @@ import { Vehicule } from "../../../models/vehicule.model";
 import { ConsumableService } from "../../../services/consumable.service";
 import { MaterialService } from "../../../services/material.service";
 import { VehiculeService } from "../../../services/vehicule.service";
-import { AttributionDialogComponent } from "../../tools/features/attribution-dialog/attribution-dialog.component";
+import { AttributionDialogComponent } from "../attribution-dialog/attribution-dialog.component";
 import { ActivatedRoute } from "@angular/router";
 import { DepotService } from "../../../services/depot.service";
 import { Depot } from "../../../models/depot.model";

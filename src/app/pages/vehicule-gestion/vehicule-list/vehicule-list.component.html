@@ -1,59 +1,70 @@
 <div class="p-4">
-  <button mat-raised-button color="primary" routerLink="/vehicules/add">
-    <mat-icon>add</mat-icon>
-    Ajouter un véhicule
-  </button>
-  <h2>Liste des véhicules</h2>
-
-  <table mat-table [dataSource]="vehicules()" class="mat-elevation-z2 w-full">
-
-    <!-- Immatriculation -->
-    <ng-container matColumnDef="registrationPlate">
-      <th mat-header-cell *matHeaderCellDef> Immatriculation </th>
-      <td mat-cell *matCellDef="let v"> {{ v.registrationPlate }} </td>
-    </ng-container>
-
-    <!-- Marque -->
-    <ng-container matColumnDef="brand">
-      <th mat-header-cell *matHeaderCellDef> Marque </th>
-      <td mat-cell *matCellDef="let v"> {{ v.brand }} </td>
-    </ng-container>
-
-    <!-- Modèle -->
-    <ng-container matColumnDef="model">
-      <th mat-header-cell *matHeaderCellDef> Modèle </th>
-      <td mat-cell *matCellDef="let v"> {{ v.model }} </td>
-    </ng-container>
-
-    <!-- Statut -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Statut </th>
-      <td mat-cell *matCellDef="let v"> {{ v.buyState }} </td>
-    </ng-container>
-
-    <!-- Assigné -->
-    <ng-container matColumnDef="assignedTo">
-      <th mat-header-cell *matHeaderCellDef> Assigné à </th>
-      <td mat-cell *matCellDef="let v"> {{ getTechnicianNameByVehicule(v.assignedTo) }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="idDep">
-      <th mat-header-cell *matHeaderCellDef> Dépôt </th>
-      <td mat-cell *matCellDef="let v"> {{ getDepotNameByVehicule(v.idDep) }} </td>
-    </ng-container>
-
-    <!-- Actions -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Actions </th>
-      <td mat-cell *matCellDef="let v">
-        <button mat-icon-button color="warn" (click)="removeVehicule(v.idVeh)">
-          <mat-icon>delete</mat-icon>
+    <div class="flex justify-between items-center flex-wrap gap-4 mb-4">
+        <h2 class="text-xl font-semibold">🚗 Liste des véhicules</h2>
+        <button mat-raised-button color="primary" routerLink="/vehicules/add">
+            <mat-icon>add</mat-icon> Ajouter un véhicule
         </button>
-        <!-- Ajoute ici un bouton pour l’édition si nécessaire -->
-      </td>
-    </ng-container>
+    </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+    <table mat-table [dataSource]="vehicules()" class="mat-elevation-z2 w-full overflow-x-auto rounded">
+
+        <!-- Immatriculation -->
+        <ng-container matColumnDef="registrationPlate">
+            <th mat-header-cell *matHeaderCellDef>Immatriculation</th>
+            <td mat-cell *matCellDef="let v">{{ v.registrationPlate }}</td>
+        </ng-container>
+
+        <!-- Marque -->
+        <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef>Marque</th>
+            <td mat-cell *matCellDef="let v">{{ v.brand }}</td>
+        </ng-container>
+
+        <!-- Modèle -->
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef>Modèle</th>
+            <td mat-cell *matCellDef="let v">{{ v.model }}</td>
+        </ng-container>
+
+        <!-- Statut -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Statut</th>
+            <td mat-cell *matCellDef="let v">{{ v.buyState }}</td>
+        </ng-container>
+
+        <!-- Dépôt -->
+        <ng-container matColumnDef="idDep">
+            <th mat-header-cell *matHeaderCellDef>Dépôt</th>
+            <td mat-cell *matCellDef="let v">{{ v.idDep }}</td>
+        </ng-container>
+
+        <!-- Assigné -->
+        <ng-container matColumnDef="assignedTo">
+            <th mat-header-cell *matHeaderCellDef>Assigné à</th>
+            <td mat-cell *matCellDef="let v">{{ v.idTec }}</td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let v" class="flex gap-2">
+                <button mat-icon-button color="accent" [routerLink]="['/vehicules', v.idVeh]">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" [routerLink]="['/vehicules/edit', v.idVeh]">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="removeVehicule(v.idVeh)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <p *ngIf="vehicules().length === 0" class="text-center text-gray-500 mt-6">
+        Aucun véhicule trouvé.
+    </p>
 </div>

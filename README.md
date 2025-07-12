@@ -1,89 +1,75 @@
-<<<<<<< HEAD
-# ErpStock
+# 📦 ERP de Gestion de Stock - FX Network
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+Un ERP moderne pour la gestion des ressources, des techniciens, du matériel et des dépôts, développé avec **Angular**, **Node.js** et **MongoDB**.
 
-## Development server
+## 🚀 Fonctionnalités principales
 
-To start a local development server, run:
+- 🔐 Authentification avec rôles : dirigeant, administrateur, gérant, technicien
+- 👷 Gestion des utilisateurs : ajout, suppression, assignation de dépôts/véhicules
+- 🏢 Dépôts : création, suppression, affectation de gérant
+- 🚗 Véhicules : stock, attribution, reprise
+- 🧰 Matériel & consommables : attribution, reprise, gestion de stock
+- 📊 Dashboard administrateur & dépôt avec statistiques et historique
+- 📁 Export Excel, animations, responsive design mobile & desktop
+
+## 🧪 Stack technique
+
+- **Frontend** : Angular 17+ avec Angular Material, Signals, Standalone Components
+- **Backend** : Node.js, Express, Mongoose (MongoDB)
+- **Base de données** : MongoDB
+- **Authentification** : JWT + Bcrypt
+- **Style** : Angular Material + CSS responsive
+- **Export** : fichiers Excel (.xlsx)
+
+## 🛠️ Installation locale
 
 ```bash
+# 1. Clone le dépôt
+git clone https://github.com/ibra-cadabra/erp-angular.git
+cd erp-angular
+
+# 2. Installation côté Angular
+cd frontend
+npm install
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# 3. Installation côté Node.js
+cd ../backend
+npm install
+npm run dev
 
-## Code scaffolding
+| Module / Tâche                  | Description                                                           |
+| ------------------------------- | --------------------------------------------------------------------- |
+| ✅ Backend Express/Mongoose      | Produits, Dépôts, Consommables, Véhicules, Attributions, Utilisateurs |
+| ✅ Authentification              | Login, AuthGuard, redirection selon rôle, création d’identifiants     |
+| ✅ Angular (standalone)          | Composants : consommables, matériels, véhicules, utilisateurs         |
+| ✅ AttributionService            | Affectation, reprise, historique global, signaux, filtrage dynamique  |
+| ✅ Historique (admin)            | Filtres par dépôt, auteur, date + export CSV, pagination              |
+| ✅ Gestion dynamique du stock    | Mise à jour en temps réel lors des attributions/reprises              |
+| ✅ Création d’utilisateurs       | Formulaire enrichi, rôle, type, accès à l’app                         |
+| ✅ Séparation matériel/véhicules | Collections dédiées, logique d'affectation spécifique                 |
+| ✅ UI avec signaux               | Tous les services Angular réactifs avec signaux                       |
+| ✅ Gestion des consommables      | Formulaire, filtrage, ajout, suppression, modification                |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Module / Tâche                           | Description                                                               |
+| ---------------------------------------- | ------------------------------------------------------------------------- |
+| 🔒 Expiration de session + refresh token | Ajouter sécurité renforcée, déconnexion automatique                       |
+| 📁 Gestion des documents                 | Upload CACES, carte BTP, attestations, CV, etc. (avec dates d’expiration) |
+| 🔍 Filtres avancés sur historique        | Plage de dates, mot-clé, type ressource                                   |
+| 📲 Amélioration mobile / PWA             | Interface responsive, mode hors-ligne pour techniciens                    |
+| 🧾 Export PDF                            | Historique d’attribution, profil technicien, état du stock                |
 
-```bash
-ng generate component component-name
-```
+| Module / Tâche             | Description                                                  |
+| -------------------------- | ------------------------------------------------------------ |
+| 🧩 RH                      | Suivi technicien : heures, absences, formations              |
+| 🔔 Alertes / Notifications | Documents expirés, ressources manquantes, seuils de stock    |
+| 🛠️ Maintenance matériels  | Déclarations de pannes, remarques, historique de réparations |
+| 📦 Suivi inventaire avancé | États de stock par dépôt, seuils critiques, prévision        |
+| 📊 Dashboard dirigeant     | Graphiques : dépenses, affectations, consommations           |
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# ErpAngular
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
+| Module / Tâche     | Description                                                       |
+| ------------------ | ----------------------------------------------------------------- |
+| 🐳 Dockerisation   | Dockerfile + docker-compose pour backend + MongoDB                |
+| 🚀 CI/CD           | GitHub Actions : build, test, déploiement                         |
+| 🧾 Logging backend | Intégration de Winston ou Morgan                                  |
+| 🌐 Monitoring      | Logs serveur, suivi erreurs, uptime (ex: via LogRocket ou Sentry) |

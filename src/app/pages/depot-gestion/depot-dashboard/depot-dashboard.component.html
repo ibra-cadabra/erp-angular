@@ -1,0 +1,100 @@
+<!-- ✅ depot-dashboard.component.html : Interface de gestion du dépôt -->
+<script src="../../../../../../../../AppData/Local/Temp/depot-dashboard.component.ts"></script>
+<mat-card *ngIf="depotId()">
+    <mat-card-title>📦 Gestion du dépôt n°{{ depotId() }}</mat-card-title>
+    <mat-card-content>
+
+        <!-- 🎛️ Filtres de recherche -->
+        <h3>🔎 Filtres</h3>
+        <div class="filters">
+            <mat-form-field>
+                <mat-label>Technicien</mat-label>
+                <mat-select [value]="selectedTechId()" (selectionChange)="onSelectTech($event.value)">
+                    <mat-option [value]="null">Tous</mat-option>
+                    <mat-option *ngFor="let tech of techniciens()" [value]="tech.idUser">
+                        {{ tech.name }} {{ tech.prename }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput type="date" [ngModel]="selectedDate()" (ngModelChange)="selectedDate.set($event)" />
+            </mat-form-field>
+        </div>
+
+        <!-- 👷 Liste des techniciens rattachés -->
+        <h3>👷 Techniciens rattachés</h3>
+        <div class="tech-list">
+            <mat-card *ngFor="let tech of techniciens()" class="tech-card">
+                <mat-card-title>{{ tech.name }} {{ tech.prename }}</mat-card-title>
+                <mat-card-subtitle>{{ tech.email }}</mat-card-subtitle>
+                <button mat-button color="primary" (click)="openAttributionDialog(tech)">
+                    Attribuer / Reprendre
+                </button>
+            </mat-card>
+        </div>
+
+
+        <ng-template #noResources>
+            <mat-card class="text-muted">Aucune ressource attribuée actuellement.</mat-card>
+        </ng-template>
+
+        <!-- 🧾 Historique des attributions -->
+        <h3 style="margin-top: 2rem;">📜 Historique des attributions</h3>
+        <mat-progress-bar *ngIf="attributionService.loading()" mode="indeterminate"></mat-progress-bar>
+
+        <mat-table [dataSource]="dataSource" *ngIf="!attributionService.loading()" class="mat-elevation-z2">
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.date | date:'short' }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="technician">
+                <mat-header-cell *matHeaderCellDef> Technicien </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ userService.getUserFromSignal(row.technicianId)?.name }}
+                    {{ userService.getUserFromSignal(row.technicianId)?.prename }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="resource">
+                <mat-header-cell *matHeaderCellDef> Ressource </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ getResourceLabel(row) }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="author">
+                <mat-header-cell *matHeaderCellDef> Auteur </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ userService.getUserFromSignal(row.createdBy)?.name }}
+                    {{ userService.getUserFromSignal(row.createdBy)?.prename }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+          <span [ngClass]="row.action === 'attribution' ? 'text-success' : 'text-warn'">
+            {{ row.action === 'attribution' ? 'Attribué' : 'Repris' }}
+          </span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <mat-header-cell *matHeaderCellDef> Quantité </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ row.quantity ?? '-' }}
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="['date', 'technician', 'resource', 'author', 'action', 'quantity']"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: ['date', 'technician', 'resource', 'author', 'action', 'quantity']"></mat-row>
+        </mat-table>
+
+        <mat-card *ngIf="attributionService.error()" class="text-warn">
+            ❌ Erreur chargement historique : {{ attributionService.error() }}
+        </mat-card>
+    </mat-card-content>
+</mat-card>

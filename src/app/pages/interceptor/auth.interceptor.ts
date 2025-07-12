@@ -1,3 +1,4 @@
+// auth.interceptor.ts
 import { inject } from '@angular/core';
 import {
   HttpInterceptorFn,
@@ -5,7 +6,7 @@ import {
   HttpRequest,
   HttpHandlerFn
 } from '@angular/common/http';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../services/auth.service';
 import { catchError, switchMap } from 'rxjs/operators';
 import { throwError, of } from 'rxjs';
 import { Router } from '@angular/router';

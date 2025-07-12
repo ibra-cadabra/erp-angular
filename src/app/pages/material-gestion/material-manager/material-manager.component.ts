@@ -1,23 +1,19 @@
-import { Component, OnInit, Signal, effect, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MaterialModule } from '../../../modules/material.module';
-import { Material } from '../../../models/material';
-import { MaterialService } from '../../../services/material.service';
-import { MaterialMovement } from '../../../models/materialMovement.model';
-import { MaterialMovementService } from '../../../services/materialMovement.service';
-import { RouterModule } from '@angular/router';
-import { Depot } from '../../../models/depot.model';
-import { map, Observable, startWith } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmDialog } from '../../tools/features/confirmDialog';
-import { DepotService } from '../../../services/depot.service';
-import { Tool } from '../../../models/tool.model';
-import { ToolService } from '../../../services/tool.service';
+import {Component, effect, OnInit, Signal, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MaterialModule} from '../../../modules/material.module';
+import {Material} from '../../../models/material';
+import {MaterialService} from '../../../services/material.service';
+import {RouterModule} from '@angular/router';
+import {Depot} from '../../../models/depot.model';
+import {map, Observable, startWith} from 'rxjs';
+import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ConfirmDialog} from '../../features/confirmDialog';
+import {DepotService} from '../../../services/depot.service';
 
 @Component({
   selector: 'app-material-manager',
@@ -31,10 +27,9 @@ export class MaterialManagerComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   readonly materials: Signal<Material[]>;
-  readonly movements: Signal<MaterialMovement[]>;
+  //readonly movements: Signal<MaterialMovement[]>;
 
   readonly depots: Signal<Depot[]>;
-  readonly tools: Signal<Tool[]>;
 
 
   filteredNames: Observable<string[]>;
@@ -51,11 +46,8 @@ export class MaterialManagerComponent implements OnInit {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private depotService: DepotService,
-    private toolService: ToolService,
-    private materialService: MaterialService,
-    private movementService: MaterialMovementService  ) {
+    private materialService: MaterialService ) {
       this.depots = this.depotService.depots;
-      this.tools = this.toolService.tools;
       this.materials = this.materialService.materials;
       this.materialForm = this.fb.group({
         name: ['', Validators.required],
@@ -88,7 +80,7 @@ export class MaterialManagerComponent implements OnInit {
       });
       this.names = this.materialService.materials().map(material => material.name);
       this.materials = this.materialService.materials;
-      this.movements = this.movementService.movements;
+      //this.movements = this.movementService.movements;
       this.filteredNames = this.materialForm.get('name')!.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value || ''))
@@ -105,7 +97,7 @@ export class MaterialManagerComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.names
-      .filter((name): name is string => typeof name === 'string')
+      .filter((name): name is string => true)
       .filter(name => name.toLowerCase().includes(filterValue));
   }
   ngAfterViewInit(): void {
@@ -113,14 +105,12 @@ export class MaterialManagerComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   applyFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = value;
+    this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
   }
   ngOnInit(): void {
-    this.toolService.loadTools;
     this.depotService.fetchDepots();
     this.materialService.getAllMaterials();
-    this.movementService.getMovements();
+    //this.movementService.getMovements();
     this.dataSource.filterPredicate = (data: Material, filter: string): boolean => {
         const search = filter.trim().toLowerCase();
         return (
@@ -183,17 +173,10 @@ export class MaterialManagerComponent implements OnInit {
   submitMovement() {
     if (this.movementForm.invalid) return;
 
-    const formValue = this.movementForm.value;
-    const newMovement: Omit<MaterialMovement, 'idMatMov'> = {
-      materialName: formValue.materialName,
-      materialId: 0,
-      author: null,
-      type: formValue.type,
-      quantity: formValue.quantity,
-      date: new Date()
-    };
+    //const formValue = this.movementForm.value;
 
-    this.movementService.logMovement(newMovement);
+
+    //this.movementService.logMovement(newMovement);
     this.movementForm.reset({ type: 'sortie' });
   }
 }

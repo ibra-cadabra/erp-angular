@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MaterialModule } from "../../../modules/material.module";
+import { MaterialModule } from "../../modules/material.module";
 
 @Component({
   selector: 'confirm-dialog',

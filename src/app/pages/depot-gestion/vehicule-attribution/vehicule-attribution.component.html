@@ -1,33 +1,72 @@
-<h2>🚗 Attribution des véhicules</h2>
+<mat-card class="vehicule-attribution-container">
 
-<div *ngIf="selectedTechnician(); else listeTech">
-  <h3>Technicien : {{ selectedTechnician()?.prename }} {{ selectedTechnician()?.name }}</h3>
-  <button mat-raised-button color="warn" (click)="clearSelection()">🔙 Retour</button>
+    <mat-card-title>📦 Gestion du dépôt n°{{ depotId() }}</mat-card-title>
 
-  <div *ngFor="let v of vehicules()">
-    <mat-card class="my-card">
-      <mat-card-title>{{ v.registrationPlate }}</mat-card-title>
-      <mat-card-content>
-        Affecté à : {{ getNomTec(v.idTec) || 'Dépôt' }}
-      </mat-card-content>
-      <mat-card-actions>
-        <button *ngIf="v.idTec !== selectedTechnician()?.idUser"
-                mat-button color="primary"
-                (click)="attribuer(v)">Attribuer</button>
+    <mat-card-title>🚗 Attribution des véhicules</mat-card-title>
+    <mat-card-content class="vehicule-attribution-content">
 
-        <button *ngIf="v.idTec === selectedTechnician()?.idUser"
-                mat-button color="warn"
-                (click)="reprendre(v)">Reprendre</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-</div>
+        <!-- Techniciens -->
+        <div class="tech-list">
+            <h3>👷 Techniciens rattachés</h3>
+            <div *ngIf="technicians().length === 0">Aucun technicien trouvé.</div>
 
-<ng-template #listeTech>
-  <h3>Sélectionner un technicien</h3>
-  <ul>
-    <li *ngFor="let t of technicians()" (click)="selectTechnician(t)" style="cursor: pointer;">
-      {{ t.prename }} {{ t.name }}
-    </li>
-  </ul>
-</ng-template>
+            <mat-card *ngFor="let tech of technicians()" class="tech-card">
+                <div class="tech-info">
+                    <span>{{ tech.prename }} {{ tech.name }}</span>
+                </div>
+
+                <div class="tech-actions">
+                    <!-- ✅ Attribuer si pas encore de véhicule -->
+                    <ng-container *ngIf="!hasVehicule(tech) && getVehiculesDisponibles().length > 0">
+                        <button
+                                *ngFor="let veh of getVehiculesDisponibles()"
+                                mat-stroked-button
+                                color="primary"
+                                (click)="attribuerVehicule(veh, tech)">
+                            🚗 Attribuer {{ veh.brand }}
+                        </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="!hasVehicule(tech) && getVehiculesDisponibles().length === 0">
+                        <span class="no-vehicule-msg">Aucun véhicule disponible à attribuer</span>
+                    </ng-container>
+
+                    <!-- ♻️ Reprendre si un véhicule est affecté -->
+                    <ng-container *ngIf="vehiculeAffecte(tech) as veh">
+                        <button
+                                mat-stroked-button
+                                color="warn"
+                                (click)="reprendreVehicule(veh)">
+                            ♻️ Retirer {{ veh.brand }}
+                        </button>
+                    </ng-container>
+                </div>
+            </mat-card>
+        </div>
+
+        <!-- Véhicules -->
+        <div class="veh-list">
+            <h3>🚚 Véhicules du dépôt</h3>
+            <div *ngIf="vehicules().length === 0">Aucun véhicule disponible.</div>
+
+            <mat-card *ngFor="let veh of vehicules()" class="vehicule-card">
+                <div class="vehicule-info">
+                    <strong>{{ veh.brand }}</strong>
+                    <div>📍 Immatriculation : {{ veh.registrationPlate }}</div>
+                    <div>👤 Affecté à : {{ getNomTechnicien(veh.idTec) }}</div>
+                </div>
+
+                <div class="vehicule-actions">
+                    <button
+                            mat-raised-button
+                            color="accent"
+                            *ngIf="veh.idTec"
+                            (click)="reprendreVehicule(veh)">
+                        ♻️ Reprendre
+                    </button>
+                </div>
+            </mat-card>
+        </div>
+
+    </mat-card-content>
+</mat-card>

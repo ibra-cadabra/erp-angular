@@ -1,51 +1,53 @@
-<<<<<<< HEAD
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
-import { MaterialModule } from './modules/material.module';
-import { AuthService } from './services/auth.service';
-import { DepotService } from './services/depot.service';
-
-@Component({
-  selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    RouterModule,
-    MaterialModule,
-    CommonModule
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
-})
-export class AppComponent implements OnInit{
-  title = 'erp-stock';
-  constructor(private authService: AuthService,
-    private depotService: DepotService) {
-  }
-
-  ngOnInit() {
-    // 🔐 Charger l'utilisateur connecté à partir du token (s'il existe)
-    const token = this.authService.token();
-    if (token) {
-      this.authService.decodeToken(token); // remplit le signal `user`
-    }
-
-    // 🏢 Charger les dépôts au démarrage (souvent utilisés dans admin-depot, gestion utilisateurs, etc.)
-    this.depotService.fetchDepots();
-  }
-  
-=======
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AuthService } from './services/auth.service';
+import {MaterialModule} from "./modules/material.module";
+import {RouterModule, RouterOutlet} from "@angular/router";
+import {CommonModule} from "@angular/common";
+import {DepotService} from "./services/depot.service";
+import {UserService} from "./services/user.service";
+import {LoaderComponent} from "./pages/shared/loader/loader.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [MaterialModule, RouterOutlet, RouterModule, CommonModule, LoaderComponent],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'erp-angular';
->>>>>>> cfbf496feea744ab545827c6d2b9b8d63c253874
+    title(title: any) {
+        throw new Error('Method not implemented.');
+    }
+    drawerMode: 'side' | 'over' = 'side';
+    drawerOpened = true;
+
+    constructor(
+        public auth: AuthService,
+        private depotService: DepotService,
+        private userService: UserService,
+        private observer: BreakpointObserver) {
+        this.depotService.fetchDepots();
+        this.userService.loadUsers();
+    }
+
+    ngOnInit() {
+        this.observer.observe([Breakpoints.Handset, Breakpoints.Tablet])
+            .subscribe(({ matches }) => {
+                this.drawerMode = matches ? 'over' : 'side';
+                this.drawerOpened = !matches;
+                console.log('📱 Format détecté :', matches ? 'Mobile/Tablette' : 'Desktop');
+            });
+    }
+
+    isLogged(): boolean {
+        return this.auth.isLogged();
+    }
+
+    logout() {
+        this.auth.logout();
+    }
+
+    userRole(): string | null {
+        return this.auth.getCurrentUser()?.role ?? null;
+    }
 }

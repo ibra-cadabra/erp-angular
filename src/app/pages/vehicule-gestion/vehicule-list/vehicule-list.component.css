@@ -1,0 +1,15 @@
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+}
+
+.tech-card {
+    padding: 1rem;
+}
+
+.veh-chip {
+    display: flex;
+    align-items: center;
+    margin: 0.3rem 0.2rem;
+}

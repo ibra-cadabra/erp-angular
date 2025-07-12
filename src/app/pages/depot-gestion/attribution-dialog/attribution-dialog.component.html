@@ -26,6 +26,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button color="warn" (click)="submit('retrieve')">Reprendre</button>
-  <button mat-raised-button color="primary" [disabled]="!hasQuantities()" (click)="submit('assign')">Valider</button>
+    <button mat-button style="background-color: red; color: white;" (click)="dialogRef.close()">Fermer</button>
+    <button mat-raised-button style="background-color: orange; color: white;" [disabled]="!hasQuantities()" (click)="submit('retrieve')">Reprendre</button>
+  <button mat-raised-button style="background-color: green; color: white;" [disabled]="!hasQuantities()" (click)="submit('assign')">Attribuer</button>
 </mat-dialog-actions>

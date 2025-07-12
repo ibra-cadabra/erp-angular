@@ -1,34 +1,19 @@
 .dashboard-container {
+  padding: 2rem;
+}
+
+.summary-cards {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.kpi-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.kpi-card {
-  text-align: center;
-  padding: 16px;
-}
-
-.chart-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.stat-card, .chart-card, .history-card {
+  flex: 1 1 calc(25% - 1rem);
+  min-width: 220px;
 }
 
 .chart-card {
-  padding: 16px;
-}
-
-.quick-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-start;
+  margin-top: 2rem;
 }

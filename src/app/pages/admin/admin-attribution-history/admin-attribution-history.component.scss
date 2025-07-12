@@ -1,0 +1,19 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.attribution-row {
+  background-color: #e8f5e9 !important; // Vert clair
+}
+
+.retrait-row {
+  background-color: #fff3e0 !important; // Orange clair
+}

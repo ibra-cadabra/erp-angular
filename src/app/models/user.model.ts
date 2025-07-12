@@ -1,6 +1,6 @@
 export interface User {
   _id?: string;
-  idUser?: number;
+  idUser: number;
   idDep?: number;
   idVeh?: number;
   name: string;

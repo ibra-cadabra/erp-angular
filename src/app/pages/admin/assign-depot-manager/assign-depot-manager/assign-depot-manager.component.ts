@@ -2,18 +2,16 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { Depot } from '../../../../models/depot.model';
 import { User } from '../../../../models/user.model';
 import { DepotService } from '../../../../services/depot.service';
 import { UserService } from '../../../../services/user.service';
+import {MaterialModule} from "../../../../modules/material.module";
 
 @Component({
   selector: 'app-assign-depot-manager',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSelectModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   templateUrl: './assign-depot-manager.component.html'
 })
 export class AssignDepotManagerComponent implements OnInit {
@@ -26,8 +24,8 @@ export class AssignDepotManagerComponent implements OnInit {
   readonly depots = this.depotService.depots;
   readonly users = this.userService.users;
 
-  selectedDepotId = signal<number | null>(null);
-  selectedGerantId = signal<number | null>(null);
+  //selectedDepotId = signal<number | null>(null);
+  //selectedGerantId = signal<number | null>(null);
 
   readonly availableGerants = computed(() =>
     this.users().filter(u => u.role === 'gerant' && !u.idDep)

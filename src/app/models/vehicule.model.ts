@@ -1,5 +1,5 @@
 export interface Vehicule {
-  _id?: string;
+  _id: string;
   idVeh: number;
   idTec: number;
   idDep: number; // ID of the depot to which the vehicle is assigned

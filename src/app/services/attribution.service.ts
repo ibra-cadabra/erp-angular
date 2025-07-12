@@ -1,26 +1,26 @@
-//atribution.service.ts
+// attribution.service.ts
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../environment/environment';
-// Typages
-export type ResourceType = 'material' | 'consumable' | 'vehicule';
 
+/** 🔢 Type de ressource attribuable */
+export type ResourceType = 'materiel' | 'consommable' | 'vehicule';
+
+/** 📦 Données utilisées lors de l'attribution ou de la reprise */
 export interface AttributionPayload {
   resourceType: ResourceType;
-  resourceId: number;
+  resourceId: string;
   technicianId: number;
-  quantity?: number; // facultatif pour les véhicules
+  quantity?: number;
   depotId: number;
-  performedBy: number;
+  createdBy: number | undefined;
+  comment?: string;
+  action: 'attribution' | 'reprise';
 }
 
-export interface AttributionResponse {
-  success: boolean;
-  updated: any; // tu peux créer une interface dédiée ici selon ton modèle
-}
-
+/** 📜 Représente une ligne d’historique d’attribution */
 export interface AttributionHistory {
   _id: string;
   resourceType: ResourceType;
@@ -28,47 +28,97 @@ export interface AttributionHistory {
   technicianId: number;
   depotId: number;
   quantity?: number;
-  action: 'assign' | 'retrieve';
-  performedBy: string;
+  action: 'attribution' | 'reprise';
+  createdBy: number;
+  comment?: string;
   date: Date;
+}
+
+/** ✅ Attribution actuellement active (non reprise) */
+export interface CurrentAttribution {
+  idAttri: number;
+  resourceType: ResourceType;
+  resourceId: string;
+  technicianId: number;
+  depotId: number;
+  createdBy: number;
+  date: Date;
+  action: 'attribution' | 'reprise';
+  quantity?: number;
+  assignedTo?: number;
+  comment?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AttributionService {
   private readonly apiUrl = `${environment.apiUrl}/attributions`;
 
-  // Signaux d'état
-  readonly loading = signal(false);
+  // ⚙️ États internes gérés par signaux
+  loading = signal(false);
   readonly error = signal<string | null>(null);
-  readonly history = signal<AttributionHistory[]>([]);
+  history = signal<AttributionHistory[]>([]);
+  currentAttributions = signal<CurrentAttribution[]>([]);
 
   constructor(private http: HttpClient) {}
 
-  assignMaterial(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/assign`, payload);
+  /** ➕ Attribuer une ressource (matériel, consommable ou véhicule) */
+  assignResource(payload: AttributionPayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/assign`, payload).pipe(
+        catchError(err => throwError(() => err))
+    );
   }
 
-  retrieveMaterial(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/retrieve`, payload);
+  /** ➖ Reprendre une ressource déjà attribuée */
+  retrieveResource(payload: AttributionPayload): Observable<any> {
+    return this.http.post(`${this.apiUrl}/retrieve`, payload).pipe(
+        catchError(err => throwError(() => err))
+    );
   }
 
-  getAttributionHistory(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/history`);
-  }
-
-  fetchHistory(depotId: string) {
+  /** 📜 Charger l’historique spécifique à un dépôt */
+  fetchHistory(depotId: number | string): void {
     this.loading.set(true);
     this.error.set(null);
     this.http.get<AttributionHistory[]>(`${this.apiUrl}/history/${depotId}`).pipe(
-      tap(data => {
-        this.history.set(data);
-        this.loading.set(false);
-      }),
-      catchError(err => {
-        this.error.set(err?.error?.message || 'Erreur historique');
-        this.loading.set(false);
-        return throwError(() => err);
-      })
+        tap(data => {
+          this.history.set(data);
+          this.loading.set(false);
+        }),
+        catchError(err => {
+          this.error.set(err?.error?.message || 'Erreur chargement historique');
+          this.loading.set(false);
+          return throwError(() => err);
+        })
     ).subscribe();
+  }
+
+  /** 🔁 Charger les attributions encore actives dans un dépôt */
+  fetchCurrentAttributions(depotId: number): void {
+    this.loading.set(true);
+    this.error.set(null);
+    this.http.get<CurrentAttribution[]>(`${this.apiUrl}/depot/${depotId}`).pipe(
+        tap(data => {
+          this.currentAttributions.set(data);
+          this.loading.set(false);
+        }),
+        catchError(err => {
+          this.error.set(err?.error?.message || 'Erreur chargement attributions actives');
+          this.loading.set(false);
+          return throwError(() => err);
+        })
+    ).subscribe();
+  }
+
+  /** 🌍 Charger l’historique global de toutes les attributions (pour l’admin uniquement) */
+  fetchGlobalHistory(): void {
+    this.loading.set(true);
+    this.http.get<AttributionHistory[]>(`${this.apiUrl}/history/all`).pipe(
+        tap(data => this.history.set(data)),
+        catchError(err => {
+          console.error('❌ Erreur chargement historique global', err);
+          this.error.set('Erreur chargement historique global');
+          return throwError(() => err);
+        })
+    ).subscribe({ complete: () => this.loading.set(false) });
   }
 }

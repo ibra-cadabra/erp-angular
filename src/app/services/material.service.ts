@@ -1,5 +1,5 @@
 // File: src/app/services/material.service.ts
-import { Material } from './../models/material';
+import { Material } from '../models/material';
 import { Injectable, Signal, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

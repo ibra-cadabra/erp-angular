@@ -5,13 +5,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../modules/material.module';
 import { MaterialService } from '../../../services/material.service';
-import { TechnicianService } from '../../../services/technician.service';
 import { Material } from '../../../models/material';
-import { Technician } from '../../../models/technician.model';
 import { AttributionService } from '../../../services/attribution.service';
 import { DepotService } from '../../../services/depot.service';
 import { Depot } from '../../../models/depot.model';
 import { ActivatedRoute } from '@angular/router';
+import {UserService} from "../../../services/user.service";
+import {User} from "../../../models/user.model";
 
 @Component({
   selector: 'app-depot-assignment',
@@ -30,7 +30,7 @@ export class DepotAssignmentComponent implements OnInit {
     const depot = depots.find(d => d.idDep === id);
     return depot ? depot.name : 'Dépôt inconnu';
   });
-  technicians!: Signal<Technician[]>;
+  users!: Signal<User[]>;
   selectedDepotId = signal<number | null>(null);
   form: FormGroup;
 
@@ -38,7 +38,7 @@ export class DepotAssignmentComponent implements OnInit {
     private route: ActivatedRoute,
     private depotService: DepotService,
     private materialService: MaterialService,
-    private technicianService: TechnicianService,
+    private userService: UserService,
     private attributionService: AttributionService,
     private snackBar: MatSnackBar,
     private fb: FormBuilder) {
@@ -57,11 +57,11 @@ export class DepotAssignmentComponent implements OnInit {
       this.materialService.getMaterialsByDepot(+idFromRoute); // Charge les matériaux du dépôt
     }
 
-    this.depotService.loadDepots();
+    this.depotService.fetchDepots();
     this.depots = this.depotService.depots;
 
-    this.technicianService.loadTechnicians();
-    this.technicians = computed(() => this.technicianService.technicians().filter(tech => tech.idDep === this.selectedDepotId() || tech.idDep === null));
+    this.userService.getTechnicians();
+    this.users = computed(() => this.userService.technicians().filter(tech => tech.idDep === this.selectedDepotId() || tech.idDep === null));
   }
 
 
@@ -70,10 +70,14 @@ export class DepotAssignmentComponent implements OnInit {
 
     const { technicianId, materialId, quantity } = this.form.value;
 
-    this.attributionService.create({
-      idMat: materialId!,
-      idTec: technicianId!,
-      quantity: quantity!
+    this.attributionService.assignResource({
+      technicianId: technicianId!,
+      quantity: quantity!,
+      resourceType: 'materiel',
+      resourceId: '',
+      depotId: 0,
+      createdBy: 0,
+      action: 'attribution'
     }).subscribe(() => {
       this.snackBar.open(`${type === 'attribution' ? 'Attribué' : 'Repris'} avec succès`, 'Fermer', { duration: 2000 });
       this.form.reset();

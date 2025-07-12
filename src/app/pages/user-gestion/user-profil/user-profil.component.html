@@ -1,15 +1,55 @@
-<div *ngIf="user">
-    <h2>👤 {{ user.name }} {{ user.prename }}</h2>
-    <p>Email : {{ user.email }}</p>
-    <p>Téléphone : {{ user.phone }}</p>
-    <p>Rôle : {{ user.role }}</p>
-    <p>username : {{ user.username }}</p>
-    <p *ngIf="user.idDep">Dépôt : {{ user.idDep }}</p>
+<mat-card class="profil-container" *ngIf="user">
+    <mat-card-header>
+        <div mat-card-avatar class="avatar-circle">
+            {{ user.prename[0] }}{{ user.name[0] }}
+        </div>
+        <mat-card-title>{{ user.prename }} {{ user.name }}</mat-card-title>
+        <mat-card-subtitle>{{ user.role | titlecase }} • {{ user.status }}</mat-card-subtitle>
+    </mat-card-header>
 
+    <mat-divider></mat-divider>
 
-    <button mat-raised-button color="primary" (click)="giveAccess()">Donner accès</button>
-  </div>
+    <mat-card-content>
+        <div class="section-title">📄 Informations personnelles</div>
+        <div class="info-row">
+            <span class="label">📩 Email :</span>
+            <span class="value">{{ user.email || 'Non renseigné' }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">📱 Téléphone :</span>
+            <span class="value">{{ user.phone || 'Non renseigné' }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">🔒 Numéro de sécurité sociale :</span>
+            <span class="value">{{ user.numSec || 'Non renseigné' }}</span>
+        </div>
+        <div class="info-row" *ngIf="user.status === 'auto-entrepreneur'">
+            <span class="label">🧾 SIRET :</span>
+            <span class="value">{{ user.numSiret }}</span>
+        </div>
 
-  <div *ngIf="!user">
-    <p>Chargement utilisateur...</p>
-  </div>
+        <div class="section-title">🏠 Adresse</div>
+        <div class="info-row">
+            <span class="label">Adresse :</span>
+            <span class="value">
+        {{ user.address || 'Non renseignée' }},
+                {{ user.postaleCode || '' }} {{ user.city || '' }}
+      </span>
+        </div>
+
+        <div class="section-title">🚐 Affectations</div>
+        <div class="info-row">
+            <span class="label">Véhicule :</span>
+            <span class="value">{{ getVehicule() }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Dépôt :</span>
+            <span class="value">{{ getDepot() }}</span>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+        <button mat-flat-button color="primary" (click)="editUser()">✏️ Modifier</button>
+        <button mat-stroked-button color="accent" (click)="setAccess()">🔐 Donner accès</button>
+    </mat-card-actions>
+</mat-card>

@@ -1,12 +1,12 @@
 export interface Attribution {
-  _id?: string;
+  _id: string;
   resourceType: 'materiel' | 'consommable' | 'vehicule';
-  resourceId: number;
+  resourceId: string;
   depotId: number;
   technicianId: number;
-  quantity?: number;
+  quantity: number;
   date: Date;
   comment?: string;
-  authorId?: number;
-  action?: 'assignation' | 'retrait';
+  createdBy: number;
+  action: 'attribution' | 'reprise';
 }

@@ -1,12 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+// attribution-dialog.component.ts
+import {Component, Inject, OnInit, signal} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MaterialModule } from '../../../../modules/material.module';
+import { MaterialModule } from '../../../modules/material.module';
 import { CommonModule, NgFor } from '@angular/common';
-import { AttributionService } from '../../../../services/attribution.service';
+import {AttributionPayload, AttributionService, ResourceType} from '../../../services/attribution.service';
 import { firstValueFrom } from 'rxjs';
-import { User } from '../../../../models/user.model';
+import { User } from '../../../models/user.model';
+import {Depot} from "../../../models/depot.model";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-attribution-dialog',
@@ -19,15 +22,17 @@ export class AttributionDialogComponent implements OnInit {
   form!: FormGroup;
   depotMaterials: any[] = [];
   depotConsumables: any[] = [];
+  depot: Depot | null | undefined;
+  depotId = signal<number | null>(null);
 
   tecData!: User;
 
-  constructor(
-    private dialogRef: MatDialogRef<AttributionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
-    private attributionService: AttributionService,
-    private snackBar: MatSnackBar
+  constructor(protected dialogRef: MatDialogRef<AttributionDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private fb: FormBuilder,
+              private authService: AuthService,
+              private attributionService: AttributionService,
+              private snackBar: MatSnackBar
   ) {
     const t = this.data.technician;
     console.log(t);
@@ -35,9 +40,11 @@ export class AttributionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.tecData = this.data.technician;
-    this.depotMaterials = this.data.depotMaterials || [];
-    this.depotConsumables = this.data.depotConsumables || [];
-    console.log(this.tecData);
+    this.depotMaterials = this.data.depotMaterials ?? [];
+    this.depotConsumables = this.data.depotConsumables ?? [];
+
+    console.log('🧪 Matériels dans la modale :', this.depotMaterials);
+    console.log('🧪 Consommables dans la modale :', this.depotConsumables);
 
     this.form = this.fb.group({
       materials: this.fb.array([]),
@@ -45,15 +52,11 @@ export class AttributionDialogComponent implements OnInit {
     });
 
     this.depotMaterials.forEach(() => {
-      (this.form.get('materials') as FormArray).push(
-        this.fb.group({ quantity: [0] })
-      );
+      (this.form.get('materials') as FormArray).push(this.fb.group({ quantity: [0] }));
     });
 
     this.depotConsumables.forEach(() => {
-      (this.form.get('consumables') as FormArray).push(
-        this.fb.group({ quantity: [0] })
-      );
+      (this.form.get('consumables') as FormArray).push(this.fb.group({ quantity: [0] }));
     });
   }
 
@@ -67,33 +70,27 @@ export class AttributionDialogComponent implements OnInit {
 
   submit(action: 'assign' | 'retrieve') {
     if (this.form.invalid) return;
-    const backendAction = action === 'assign' ? 'assign' : 'retrieve';
-  
+    const backendAction = action === 'assign' ? 'attribution' : 'reprise';
+
     // Fonction utilitaire pour construire les payloads de manière sécurisée
     const buildPayloads = (resources: any[], controls: any[], resourceType: string) => {
-      const arr: { resourceType: string; resourceId: any; technicianId: number; quantity: any; depotId: number | undefined; performedBy: string; action: string; }[] = [];
-      if (!resources) {
-        console.warn(`Resources undefined for type ${resourceType}`);
-        return arr;
-      }
-      if (resources.length !== controls.length) {
-        console.warn(`Mismatch length for ${resourceType}: resources=${resources.length}, controls=${controls.length}`);
-      }
+      const arr: AttributionPayload[] = [];
+      const currentUser = this.authService.getCurrentUser();
+      const userId = currentUser?.idUser;
+
+
       for (let i = 0; i < controls.length; i++) {
         const resource = resources[i];
-        if (!resource) {
-          console.warn(`No resource found at index ${i} for type ${resourceType}`);
-          continue;
-        }
         const quantity = controls[i].get('quantity')?.value;
-        if (quantity > 0) {
+
+        if (resource && quantity > 0) {
           arr.push({
-            resourceType,
+            resourceType: resourceType as ResourceType, // ✅ correction ici
             resourceId: resource._id,
             technicianId: this.tecData.idUser!,
             quantity,
-            depotId: this.tecData.idDep,
-            performedBy: 'admin',
+            depotId: this.tecData.idDep!,
+            createdBy: userId!,
             action: backendAction
           });
         }
@@ -102,8 +99,8 @@ export class AttributionDialogComponent implements OnInit {
     };
   
     const payloads = [
-      ...buildPayloads(this.depotMaterials, this.materialsArray.controls, 'material'),
-      ...buildPayloads(this.depotConsumables, this.consumablesArray.controls, 'consumable')
+      ...buildPayloads(this.depotMaterials, this.materialsArray.controls, 'materiel'),
+      ...buildPayloads(this.depotConsumables, this.consumablesArray.controls, 'consommable')
     ];
   
     if (payloads.length === 0) {
@@ -113,8 +110,8 @@ export class AttributionDialogComponent implements OnInit {
   
     const serviceCalls = payloads.map(payload =>
       action === 'assign'
-        ? this.attributionService.assignMaterial(payload)
-        : this.attributionService.retrieveMaterial(payload)
+        ? this.attributionService.assignResource(payload)
+        : this.attributionService.retrieveResource(payload)
     );
 
     console.log('Payloads envoyés au backend:', payloads);
@@ -141,5 +138,5 @@ export class AttributionDialogComponent implements OnInit {
       ctrl.get('quantity')?.value > 0
     );
   }
-  
+
 }

@@ -1,11 +1,12 @@
 <!-- admin-depot-layout.component.html -->
 <mat-card class="admin-depot-layout">
+    <h2>Dépôt: {{depotId()}}</h2>
   <mat-card-title>🎯 Interface dépôt</mat-card-title>
 
   <mat-card-content>
     <!-- Navigation entre les sous-pages du dépôt -->
     <nav class="nav-buttons">
-      <button routerLink="dashboard" routerLinkActive="active" mat-raised-button color="primary">
+      <button routerLink="depotDashboard" routerLinkActive="active" mat-raised-button color="primary">
         Dashboard
       </button>
       <button routerLink="vehicules" routerLinkActive="active" mat-raised-button color="primary">
@@ -17,7 +18,6 @@
       <button routerLink="consommables" mat-raised-button>Consommables</button>
       -->
     </nav>
-
     <!-- Contenu dynamique injecté ici -->
     <router-outlet></router-outlet>
   </mat-card-content>
