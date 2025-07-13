@@ -1,7 +1,7 @@
 import {Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Vehicule} from '../models/vehicule.model';
-import {environment} from '../environment/environment';
+import {environment} from '../../environments/environment';
 import {map, Observable, tap} from 'rxjs';
 import {NewVehicule} from "../models/new-vehicule.model";
 

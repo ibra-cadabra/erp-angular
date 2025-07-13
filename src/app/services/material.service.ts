@@ -4,7 +4,7 @@ import {computed, Injectable, Signal, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {environment} from '../environment/environment';
+import {environment} from '../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class MaterialService {

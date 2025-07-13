@@ -6,7 +6,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {User} from '../models/user.model';
 import {catchError, of, tap, throwError} from 'rxjs';
-import {environment} from '../environment/environment';
+import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
 
 @Injectable({providedIn: 'root'})

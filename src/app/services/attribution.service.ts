@@ -3,7 +3,7 @@ import {Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import {environment} from '../environment/environment';
+import {environment} from '../../environments/environment';
 
 /** 🔢 Type de ressource attribuable */
 export type ResourceType = 'materiel' | 'consommable' | 'vehicule';
