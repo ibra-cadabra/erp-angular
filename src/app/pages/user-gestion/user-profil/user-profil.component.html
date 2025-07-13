@@ -1,6 +1,6 @@
-<mat-card class="profil-container" *ngIf="user">
+<mat-card *ngIf="user" class="profil-container">
     <mat-card-header>
-        <div mat-card-avatar class="avatar-circle">
+        <div class="avatar-circle" mat-card-avatar>
             {{ user.prename[0] }}{{ user.name[0] }}
         </div>
         <mat-card-title>{{ user.prename }} {{ user.name }}</mat-card-title>
@@ -23,7 +23,7 @@
             <span class="label">🔒 Numéro de sécurité sociale :</span>
             <span class="value">{{ user.numSec || 'Non renseigné' }}</span>
         </div>
-        <div class="info-row" *ngIf="user.status === 'auto-entrepreneur'">
+        <div *ngIf="user.status === 'auto-entrepreneur'" class="info-row">
             <span class="label">🧾 SIRET :</span>
             <span class="value">{{ user.numSiret }}</span>
         </div>
@@ -49,7 +49,7 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-        <button mat-flat-button color="primary" (click)="editUser()">✏️ Modifier</button>
-        <button mat-stroked-button color="accent" (click)="setAccess()">🔐 Donner accès</button>
+        <button (click)="editUser()" color="primary" mat-flat-button>✏️ Modifier</button>
+        <button (click)="setAccess()" color="accent" mat-stroked-button>🔐 Donner accès</button>
     </mat-card-actions>
 </mat-card>

@@ -30,7 +30,7 @@ import {MatMenuModule} from '@angular/material/menu';
 
 // Table & Paginator
 import {MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressBarModule} from "@angular/material/progress-bar";

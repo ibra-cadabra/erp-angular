@@ -1,23 +1,23 @@
 <mat-card class="tech-card">
     <mat-card-title>👷 {{ isEditMode ? 'Modifier' : 'Ajouter' }} un technicien</mat-card-title>
 
-    <form [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+    <form (ngSubmit)="submit()" [formGroup]="form" class="form-grid">
 
         <!-- NOM / PRÉNOM -->
         <mat-form-field appearance="outline">
             <mat-label>Nom</mat-label>
-            <input matInput formControlName="name" />
+            <input formControlName="name" matInput/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Prénom</mat-label>
-            <input matInput formControlName="prename" />
+            <input formControlName="prename" matInput/>
         </mat-form-field>
 
         <!-- ADRESSE (autocomplete API Gouv) -->
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Adresse</mat-label>
-            <input matInput [matAutocomplete]="auto" formControlName="address" />
+            <input [matAutocomplete]="auto" formControlName="address" matInput/>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setAddressFields($event.option.value)">
                 <mat-option *ngFor="let suggestion of filteredStreets | async" [value]="suggestion">
                     {{ suggestion.label }}
@@ -28,18 +28,18 @@
         <!-- VILLE / CODE POSTAL -->
         <mat-form-field appearance="outline">
             <mat-label>Ville</mat-label>
-            <input matInput formControlName="city" readonly />
+            <input formControlName="city" matInput readonly/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Code Postal</mat-label>
-            <input matInput formControlName="postaleCode" readonly />
+            <input formControlName="postaleCode" matInput readonly/>
         </mat-form-field>
 
         <!-- SÉCURITÉ SOCIALE -->
         <mat-form-field appearance="outline">
             <mat-label>Numéro de sécurité sociale</mat-label>
-            <input matInput formControlName="numSec" />
+            <input formControlName="numSec" matInput/>
         </mat-form-field>
 
         <!-- RÔLE / STATUT -->
@@ -62,9 +62,9 @@
         </mat-form-field>
 
         <!-- SIRET pour auto-entrepreneur -->
-        <mat-form-field appearance="outline" *ngIf="isAutoEntrepreneur">
+        <mat-form-field *ngIf="isAutoEntrepreneur" appearance="outline">
             <mat-label>SIRET</mat-label>
-            <input matInput formControlName="numSiret" />
+            <input formControlName="numSiret" matInput/>
         </mat-form-field>
 
         <!-- DÉPÔT / VÉHICULE -->
@@ -87,18 +87,18 @@
         <!-- CONTACT -->
         <mat-form-field appearance="outline">
             <mat-label>Téléphone</mat-label>
-            <input matInput formControlName="phone" />
+            <input formControlName="phone" matInput/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email" />
+            <input formControlName="email" matInput/>
         </mat-form-field>
 
         <!-- ACTIONS -->
         <div class="form-actions">
-            <button mat-stroked-button type="button" routerLink="/users">Annuler</button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+            <button mat-stroked-button routerLink="/users" type="button">Annuler</button>
+            <button [disabled]="form.invalid" color="primary" mat-raised-button type="submit">
                 {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
             </button>
         </div>

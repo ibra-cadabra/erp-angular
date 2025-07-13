@@ -26,15 +26,14 @@ import {MaterialModule} from "../../../modules/material.module";
     styleUrls: ['./admin-depot-layout.component.css']
 })
 export class AdminDepotLayoutComponent implements OnInit {
+    readonly techniciens = signal<User[]>([]);
+    depotId = signal<number | null>(null);
     private userService = inject(UserService);
     private vehiculeService = inject(VehiculeService);
+    readonly vehicules = this.vehiculeService.vehicules;
     private materialService = inject(MaterialService);
     private attributionService = inject(AttributionService);
     private depotService = inject(DepotService);
-
-    readonly techniciens = signal<User[]>([]);
-    readonly vehicules = this.vehiculeService.vehicules;
-    depotId = signal<number | null>(null);
 
     constructor(
         private route: ActivatedRoute,

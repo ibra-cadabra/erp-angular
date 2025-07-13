@@ -1,6 +1,7 @@
 # 📦 ERP de Gestion de Stock - FX Network
 
-Un ERP moderne pour la gestion des ressources, des techniciens, du matériel et des dépôts, développé avec **Angular**, **Node.js** et **MongoDB**.
+Un ERP moderne pour la gestion des ressources, des techniciens, du matériel et des dépôts, développé avec **Angular**, *
+*Node.js** et **MongoDB**.
 
 ## 🚀 Fonctionnalités principales
 

@@ -1,6 +1,6 @@
 // login.component.ts
 import {Component} from '@angular/core';
-import {FormBuilder, Validators, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {CommonModule} from '@angular/common';

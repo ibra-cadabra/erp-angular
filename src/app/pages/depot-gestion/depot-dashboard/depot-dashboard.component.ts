@@ -1,24 +1,24 @@
 // ✅ depot-dashboard.component.ts : Composant Angular principal de gestion du dépôt
 
-import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatButton } from '@angular/material/button';
-import { MatTableDataSource } from '@angular/material/table';
-import { DepotService } from '../../../services/depot.service';
+import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {MatButton} from '@angular/material/button';
+import {MatTableDataSource} from '@angular/material/table';
+import {DepotService} from '../../../services/depot.service';
 import {
-    AttributionService,
     AttributionHistory,
-    CurrentAttribution,
-    AttributionPayload
+    AttributionPayload,
+    AttributionService,
+    CurrentAttribution
 } from '../../../services/attribution.service';
-import { UserService } from '../../../services/user.service';
-import { DepotContextService } from '../../../services/depotContexteService';
-import { AttributionDialogComponent } from '../attribution-dialog/attribution-dialog.component';
-import { User } from '../../../models/user.model';
-import { Depot } from '../../../models/depot.model';
-import { MaterialModule } from '../../../modules/material.module';
+import {UserService} from '../../../services/user.service';
+import {DepotContextService} from '../../../services/depotContexteService';
+import {AttributionDialogComponent} from '../attribution-dialog/attribution-dialog.component';
+import {User} from '../../../models/user.model';
+import {Depot} from '../../../models/depot.model';
+import {MaterialModule} from '../../../modules/material.module';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../../../services/auth.service";
 import {AlertService} from "../../../services/alert.service";
@@ -31,26 +31,19 @@ import {AlertService} from "../../../services/alert.service";
     styleUrls: ['./depot-dashboard.component.scss']
 })
 export class DepotDashboardComponent implements OnInit {
-    protected depotService = inject(DepotService);
-    protected attributionService = inject(AttributionService);
-    protected userService = inject(UserService);
-    private depotContext = inject(DepotContextService);
-    private dialog = inject(MatDialog);
-    private snackBar = inject(MatSnackBar);
-    private auth = inject(AuthService);
     alertService = inject(AlertService);
-
     dataSource = new MatTableDataSource<AttributionHistory>();
-
     depotId = signal<number | null>(null);
     selectedTechId = signal<number | null>(null);
     selectedDate = signal<string | null>(null);
-
+    depot: Depot | null = null;
+    alerts = computed(() => this.alertService.lowStockConsumables());
+    protected depotService = inject(DepotService);
     readonly techniciens = computed(() => this.depotService.resources().technicians);
     readonly materiels = computed(() => this.depotService.resources().materials);
     readonly consumables = computed(() => this.depotService.resources().consumables);
     readonly vehicules = computed(() => this.depotService.resources().vehicules);
-
+    protected attributionService = inject(AttributionService);
     readonly filteredHistory = computed(() => {
         return this.attributionService.history().filter(entry => {
             const matchTech = !this.selectedTechId() || entry.technicianId === this.selectedTechId();
@@ -58,14 +51,16 @@ export class DepotDashboardComponent implements OnInit {
             return matchTech && matchDate;
         });
     });
-
     readonly ressourcesAttribuees = computed(() =>
         this.attributionService.currentAttributions().filter(attr =>
             !this.selectedTechId() || attr.technicianId === this.selectedTechId()
         )
     );
-
-    depot: Depot | null = null;
+    protected userService = inject(UserService);
+    private depotContext = inject(DepotContextService);
+    private dialog = inject(MatDialog);
+    private snackBar = inject(MatSnackBar);
+    private auth = inject(AuthService);
 
     constructor() {
         const id = this.depotContext.idDep();
@@ -92,7 +87,6 @@ export class DepotDashboardComponent implements OnInit {
     ngOnInit(): void {
         this.alertService.fetchLowStockConsumables();
     }
-    alerts = computed(() => this.alertService.lowStockConsumables());
 
     onSelectTech(id: number | null) {
         this.selectedTechId.set(id);

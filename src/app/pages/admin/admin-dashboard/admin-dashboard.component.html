@@ -29,7 +29,7 @@
         <mat-card-title>📜 Historique des attributions</mat-card-title>
         <mat-card-content>
             <p>Consultez toutes les opérations d'attribution ou de reprise de matériel et de véhicules.</p>
-            <button mat-raised-button color="primary" routerLink="/admin-attributions">
+            <button color="primary" mat-raised-button routerLink="/admin-attributions">
                 <mat-icon>history</mat-icon>
                 Voir l'historique
             </button>
@@ -40,9 +40,9 @@
     <mat-card class="chart-card">
         <mat-card-title>📈 Top 5 des matériels les plus disponibles</mat-card-title>
         <mat-card-content>
-            <canvas baseChart
-                    [data]="chartData"
-                    [type]="'bar'">
+            <canvas [data]="chartData"
+                    [type]="'bar'"
+                    baseChart>
             </canvas>
         </mat-card-content>
     </mat-card>

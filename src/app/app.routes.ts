@@ -1,16 +1,16 @@
-import { Routes } from '@angular/router';
-import { authGuard, authorizeRoles } from './pages/features/auth.guard';
-import { LoginComponent } from './pages/login/login.component';
-import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
-import { AdminDashboardComponent } from './pages/admin/admin-dashboard/admin-dashboard.component';
+import {Routes} from '@angular/router';
+import {authGuard, authorizeRoles} from './pages/features/auth.guard';
+import {LoginComponent} from './pages/login/login.component';
+import {UnauthorizedComponent} from './pages/unauthorized/unauthorized.component';
+import {AdminDashboardComponent} from './pages/admin/admin-dashboard/admin-dashboard.component';
 
 export const appRoutes: Routes = [
     // 🔐 Authentification
-    { path: 'login', component: LoginComponent },
-    { path: 'unauthorized', component: UnauthorizedComponent },
+    {path: 'login', component: LoginComponent},
+    {path: 'unauthorized', component: UnauthorizedComponent},
 
     // 🧭 Redirection par défaut
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    {path: '', redirectTo: '/login', pathMatch: 'full'},
 
     // 📊 Dashboard général (Admin & Dirigeant)
     {
@@ -35,7 +35,7 @@ export const appRoutes: Routes = [
                 .then(m => m.AdminDepotLayoutComponent),
         canActivate: [authGuard, authorizeRoles('administrateur', 'dirigeant', 'gerant')],
         children: [
-            { path: '', redirectTo: 'depotDashboard', pathMatch: 'full' },
+            {path: '', redirectTo: 'depotDashboard', pathMatch: 'full'},
             {
                 path: 'depotDashboard',
                 loadComponent: () =>
@@ -174,5 +174,5 @@ export const appRoutes: Routes = [
     },
 
     // 🚨 Page inconnue
-    { path: '**', redirectTo: '/login' }
+    {path: '**', redirectTo: '/login'}
 ];

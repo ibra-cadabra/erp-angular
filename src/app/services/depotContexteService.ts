@@ -1,8 +1,8 @@
 // depotContexteService.ts ou auth.service.ts
-import { inject, Injectable, signal } from '@angular/core';
-import { AuthService } from './auth.service';
+import {inject, Injectable, signal} from '@angular/core';
+import {AuthService} from './auth.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class DepotContextService {
     private auth = inject(AuthService);
 
@@ -16,6 +16,7 @@ export class DepotContextService {
         const user = this.auth.getCurrentUser();
         console.log('🔍 Utilisateur trouvé dans userService :', user);
     }
+
     setDepot(id: number) {
         this._idDep.set(id);
     }

@@ -1,14 +1,14 @@
-<mat-sidenav-container class="sidenav-container" *ngIf="isLogged(); else loginPage">
+<mat-sidenav-container *ngIf="isLogged(); else loginPage" class="sidenav-container">
     <!-- 🧭 Barre latérale (optionnelle) -->
-    <mat-sidenav mode="side" opened class="sidenav">
+    <mat-sidenav class="sidenav" mode="side" opened>
         <mat-toolbar>MENU</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item routerLink="/admin-dashboard" *ngIf="isLogged()">Dashboard</a>
-            <a mat-list-item routerLink="/users" *ngIf="isLogged()">Utilisateurs</a>
-            <a mat-list-item routerLink="/vehicules" *ngIf="isLogged()">Véhicules</a>
-            <a mat-list-item routerLink="/materials" *ngIf="isLogged()">Matériels</a>
-            <a mat-list-item routerLink="/consumables" *ngIf="isLogged()">Consommables</a>
-            <a mat-list-item routerLink="/list-depot" *ngIf="isLogged()">Dépôts</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/admin-dashboard">Dashboard</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/users">Utilisateurs</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/vehicules">Véhicules</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/materials">Matériels</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/consumables">Consommables</a>
+            <a *ngIf="isLogged()" mat-list-item routerLink="/list-depot">Dépôts</a>
         </mat-nav-list>
     </mat-sidenav>
 
@@ -17,7 +17,7 @@
         <mat-toolbar color="dark-toolbar">
             <span>FX Network</span>
             <span class="spacer"></span>
-            <button mat-button *ngIf="isLogged()" (click)="authService.logout()">Se déconnecter</button>
+            <button (click)="authService.logout()" *ngIf="isLogged()" mat-button>Se déconnecter</button>
         </mat-toolbar>
 
         <!-- 🌐 Contenu routé -->

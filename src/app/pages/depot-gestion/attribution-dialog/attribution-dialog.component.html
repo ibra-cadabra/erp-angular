@@ -1,32 +1,36 @@
 <h2 mat-dialog-title>
-  Attribution de matériel pour {{ data.technician.prename }} {{ data.technician.name }}
+    Attribution de matériel pour {{ data.technician.prename }} {{ data.technician.name }}
 </h2>
 <mat-dialog-content [formGroup]="form">
-  <h3>Matériels</h3>
-  <ng-container formArrayName="materials">
-    <div *ngFor="let matCtrl of materialsArray.controls; let i = index" [formGroupName]="i">
-      <p>{{ depotMaterials[i]?.name }} - Stock : {{ depotMaterials[i]?.quantity }}</p>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Quantité</mat-label>
-        <input matInput type="number" formControlName="quantity" min="0" />
-      </mat-form-field>
-    </div>
-  </ng-container>
+    <h3>Matériels</h3>
+    <ng-container formArrayName="materials">
+        <div *ngFor="let matCtrl of materialsArray.controls; let i = index" [formGroupName]="i">
+            <p>{{ depotMaterials[i]?.name }} - Stock : {{ depotMaterials[i]?.quantity }}</p>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Quantité</mat-label>
+                <input formControlName="quantity" matInput min="0" type="number"/>
+            </mat-form-field>
+        </div>
+    </ng-container>
 
-  <h3>Consommables</h3>
-  <ng-container formArrayName="consumables">
-    <div *ngFor="let consCtrl of consumablesArray.controls; let i = index" [formGroupName]="i">
-      <p>{{ depotConsumables[i]?.name }} - Stock : {{ depotConsumables[i]?.quantity }}</p>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Quantité</mat-label>
-        <input matInput type="number" formControlName="quantity" min="0" />
-      </mat-form-field>
-    </div>
-  </ng-container>
+    <h3>Consommables</h3>
+    <ng-container formArrayName="consumables">
+        <div *ngFor="let consCtrl of consumablesArray.controls; let i = index" [formGroupName]="i">
+            <p>{{ depotConsumables[i]?.name }} - Stock : {{ depotConsumables[i]?.quantity }}</p>
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Quantité</mat-label>
+                <input formControlName="quantity" matInput min="0" type="number"/>
+            </mat-form-field>
+        </div>
+    </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button style="background-color: red; color: white;" (click)="dialogRef.close()">Fermer</button>
-    <button mat-raised-button style="background-color: orange; color: white;" [disabled]="!hasQuantities()" (click)="submit('retrieve')">Reprendre</button>
-  <button mat-raised-button style="background-color: green; color: white;" [disabled]="!hasQuantities()" (click)="submit('assign')">Attribuer</button>
+    <button (click)="dialogRef.close()" mat-button style="background-color: red; color: white;">Fermer</button>
+    <button (click)="submit('retrieve')" [disabled]="!hasQuantities()" mat-raised-button
+            style="background-color: orange; color: white;">Reprendre
+    </button>
+    <button (click)="submit('assign')" [disabled]="!hasQuantities()" mat-raised-button
+            style="background-color: green; color: white;">Attribuer
+    </button>
 </mat-dialog-actions>

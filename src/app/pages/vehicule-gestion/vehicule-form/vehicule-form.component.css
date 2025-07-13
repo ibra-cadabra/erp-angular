@@ -1,51 +1,51 @@
 /* Container du formulaire */
 .form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 /* Champs en pleine largeur */
 .full-width {
-  width: 100%;
+    width: 100%;
 }
 
 /* Centrage de la carte */
 .mat-card {
-  max-width: 600px;
-  margin: auto;
+    max-width: 600px;
+    margin: auto;
 }
 
 /* Titre */
 mat-card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
 }
 
 /* Icônes de validation */
 mat-icon[matSuffix] {
-  margin-left: 8px;
+    margin-left: 8px;
 }
 
 /* Espacement sous les champs */
 mat-form-field {
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 /* Bouton de soumission */
 button[type="submit"] {
-  min-width: 150px;
-  font-weight: 500;
+    min-width: 150px;
+    font-weight: 500;
 }
 
 /* Responsivité simple */
 @media (max-width: 600px) {
-  .mat-card {
-    padding: 16px;
-  }
+    .mat-card {
+        padding: 16px;
+    }
 
-  button[type="submit"] {
-    width: 100%;
-  }
+    button[type="submit"] {
+        width: 100%;
+    }
 }

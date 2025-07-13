@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditDepotDialogComponent } from './edit-depot-dialog.component';
+import {EditDepotDialogComponent} from './edit-depot-dialog.component';
 
 describe('EditDepotDialogComponent', () => {
-  let component: EditDepotDialogComponent;
-  let fixture: ComponentFixture<EditDepotDialogComponent>;
+    let component: EditDepotDialogComponent;
+    let fixture: ComponentFixture<EditDepotDialogComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [EditDepotDialogComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [EditDepotDialogComponent]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(EditDepotDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(EditDepotDialogComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

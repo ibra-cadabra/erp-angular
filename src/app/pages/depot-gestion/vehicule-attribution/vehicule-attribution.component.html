@@ -19,10 +19,10 @@
                     <!-- ✅ Attribuer si pas encore de véhicule -->
                     <ng-container *ngIf="!hasVehicule(tech) && getVehiculesDisponibles().length > 0">
                         <button
+                                (click)="attribuerVehicule(veh, tech)"
                                 *ngFor="let veh of getVehiculesDisponibles()"
-                                mat-stroked-button
                                 color="primary"
-                                (click)="attribuerVehicule(veh, tech)">
+                                mat-stroked-button>
                             🚗 Attribuer {{ veh.brand }}
                         </button>
                     </ng-container>
@@ -34,9 +34,9 @@
                     <!-- ♻️ Reprendre si un véhicule est affecté -->
                     <ng-container *ngIf="vehiculeAffecte(tech) as veh">
                         <button
-                                mat-stroked-button
+                                (click)="reprendreVehicule(veh)"
                                 color="warn"
-                                (click)="reprendreVehicule(veh)">
+                                mat-stroked-button>
                             ♻️ Retirer {{ veh.brand }}
                         </button>
                     </ng-container>
@@ -58,10 +58,10 @@
 
                 <div class="vehicule-actions">
                     <button
-                            mat-raised-button
-                            color="accent"
+                            (click)="reprendreVehicule(veh)"
                             *ngIf="veh.idTec"
-                            (click)="reprendreVehicule(veh)">
+                            color="accent"
+                            mat-raised-button>
                         ♻️ Reprendre
                     </button>
                 </div>

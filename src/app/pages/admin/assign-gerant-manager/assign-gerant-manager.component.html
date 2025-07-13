@@ -1,30 +1,30 @@
 <mat-card>
-  <mat-card-title>🧑‍💼 Gestion des Gérants de Dépôt</mat-card-title>
+    <mat-card-title>🧑‍💼 Gestion des Gérants de Dépôt</mat-card-title>
 
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Dépôt</mat-label>
-    <mat-select [(ngModel)]="selectedDepot" (selectionChange)="loadCurrentGerant()">
-      <mat-option *ngFor="let depot of depots()" [value]="depot">
-        {{ depot.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Dépôt</mat-label>
+        <mat-select (selectionChange)="loadCurrentGerant()" [(ngModel)]="selectedDepot">
+            <mat-option *ngFor="let depot of depots()" [value]="depot">
+                {{ depot.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-  <div *ngIf="currentGerant">
-    <p>🔒 Gérant actuel : {{ currentGerant.name }} {{ currentGerant.prename }}</p>
-    <button mat-button color="warn" (click)="removeGerant()">Retirer le gérant</button>
-  </div>
+    <div *ngIf="currentGerant">
+        <p>🔒 Gérant actuel : {{ currentGerant.name }} {{ currentGerant.prename }}</p>
+        <button (click)="removeGerant()" color="warn" mat-button>Retirer le gérant</button>
+    </div>
 
-  <mat-form-field appearance="outline" class="w-full">
-    <mat-label>Attribuer un nouveau gérant</mat-label>
-    <mat-select [(ngModel)]="selectedGerant">
-      <mat-option *ngFor="let gerant of availableGerants" [value]="gerant">
-        {{ gerant.name }} {{ gerant.prename }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Attribuer un nouveau gérant</mat-label>
+        <mat-select [(ngModel)]="selectedGerant">
+            <mat-option *ngFor="let gerant of availableGerants" [value]="gerant">
+                {{ gerant.name }} {{ gerant.prename }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="assignGerant()" [disabled]="!selectedGerant">
-    ✅ Attribuer
-  </button>
+    <button (click)="assignGerant()" [disabled]="!selectedGerant" color="primary" mat-raised-button>
+        ✅ Attribuer
+    </button>
 </mat-card>

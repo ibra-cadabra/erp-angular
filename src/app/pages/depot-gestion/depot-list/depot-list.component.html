@@ -4,17 +4,17 @@
 <!-- 🔍 Barre de recherche -->
 <mat-form-field appearance="outline" class="filter-field">
     <mat-label>Rechercher un dépôt</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Nom, gérant..." />
+    <input (keyup)="applyFilter($event)" matInput placeholder="Nom, gérant..."/>
     <mat-icon matSuffix>search</mat-icon>
 </mat-form-field>
 
 <!-- 🧱 Tableau des dépôts -->
-<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+<mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
 
     <!-- 🏷️ Nom du dépôt -->
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
-        <mat-cell *matCellDef="let depot"> {{ depot.name }} </mat-cell>
+        <mat-cell *matCellDef="let depot"> {{ depot.name }}</mat-cell>
     </ng-container>
 
     <!-- 👤 Gérant (si applicable) -->
@@ -38,25 +38,25 @@
         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
         <mat-cell *matCellDef="let depot">
 
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu d'action">
+            <button [matMenuTriggerFor]="menu" aria-label="Menu d'action" mat-icon-button>
                 <mat-icon>more_vert</mat-icon>
             </button>
 
             <!-- 📋 Menu d’actions -->
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="editDepot(depot)">
+                <button (click)="editDepot(depot)" mat-menu-item>
                     <mat-icon>edit</mat-icon>
                     <span>Modifier</span>
                 </button>
-                <button mat-menu-item (click)="deleteDepot(depot)">
+                <button (click)="deleteDepot(depot)" mat-menu-item>
                     <mat-icon color="warn">delete</mat-icon>
                     <span>Supprimer</span>
                 </button>
-                <button mat-menu-item [routerLink]="['/admin-depot']" [queryParams]="{ idDep: depot.idDep }">
+                <button [queryParams]="{ idDep: depot.idDep }" [routerLink]="['/admin-depot']" mat-menu-item>
                     <mat-icon>manage_accounts</mat-icon>
                     <span>Gérer</span>
                 </button>
-                <button mat-menu-item (click)="openHistory(depot)">
+                <button (click)="openHistory(depot)" mat-menu-item>
                     <mat-icon>history</mat-icon>
                     <span>Historique</span>
                 </button>

@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserProfilComponent } from './user-profil.component';
+import {UserProfilComponent} from './user-profil.component';
 
 describe('UserProfilComponent', () => {
-  let component: UserProfilComponent;
-  let fixture: ComponentFixture<UserProfilComponent>;
+    let component: UserProfilComponent;
+    let fixture: ComponentFixture<UserProfilComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [UserProfilComponent]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [UserProfilComponent]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(UserProfilComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(UserProfilComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,37 +1,38 @@
 .sidenav-container {
-    height: 100vh;
+  height: 100vh;
 }
 
 .sidenav {
-    width: 220px;
-    background-color: #f5f5f5;
+  width: 220px;
+  background-color: #f5f5f5;
 }
 
 .mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .main-content {
-    padding: 16px;
+  padding: 16px;
 }
 
 .spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
+
 .dark-toolbar {
-    background-color: #212121;
-    color: #f1f1f1;
-    font-weight: 500;
-    padding: 0 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  background-color: #212121;
+  color: #f1f1f1;
+  font-weight: 500;
+  padding: 0 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .dark-toolbar .spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .dark-toolbar button {
-    color: #90caf9; /* couleur du bouton déconnexion */
+  color: #90caf9; /* couleur du bouton déconnexion */
 }

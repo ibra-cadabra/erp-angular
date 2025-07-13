@@ -1,16 +1,15 @@
 // ✅ Fichier : user-list.component.ts
 // Composant pour afficher la liste des utilisateurs avec actions (voir, modifier, supprimer)
 
-import { Component, OnInit, inject, computed, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../../../modules/material.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {Router} from '@angular/router';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {MaterialModule} from '../../../modules/material.module';
 
-import { UserService } from '../../../services/user.service';
-import { User } from '../../../models/user.model';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../../models/user.model';
 import {ConfirmDialogComponent} from "../../../shared/confirmDialogComponent";
 import {UserCredentialsComponent} from "../user-credentials/user-credentials.component";
 
@@ -22,14 +21,7 @@ import {UserCredentialsComponent} from "../user-credentials/user-credentials.com
     styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-    private userService = inject(UserService);
-    private dialog = inject(MatDialog);
-    private snackBar = inject(MatSnackBar);
-    private router = inject(Router);
-
-    users = this.userService.users;
     search = signal('');
-
     // 🔍 Liste filtrée en fonction du terme recherché
     filteredUsers = computed(() => {
         const term = this.search().toLowerCase();
@@ -37,6 +29,11 @@ export class UserListComponent implements OnInit {
             [u.name, u.prename, u.role].some(val => val?.toLowerCase().includes(term))
         );
     });
+    private userService = inject(UserService);
+    users = this.userService.users;
+    private dialog = inject(MatDialog);
+    private snackBar = inject(MatSnackBar);
+    private router = inject(Router);
 
     ngOnInit() {
         console.log('📥 Initialisation user-list.component');
@@ -86,7 +83,7 @@ export class UserListComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result === true) {
                 this.userService.removeUser(user.idUser);
-                this.snackBar.open(`✅ Utilisateur supprimé`, 'Fermer', { duration: 3000 });
+                this.snackBar.open(`✅ Utilisateur supprimé`, 'Fermer', {duration: 3000});
                 console.warn('🗑️ Supprimé :', user);
             }
         });
@@ -95,13 +92,13 @@ export class UserListComponent implements OnInit {
     setAccess(user: User) {
         const dialogRef = this.dialog.open(UserCredentialsComponent, {
             width: '400px',
-            data: { idUser: user.idUser }
+            data: {idUser: user.idUser}
         });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.userService.refreshUser(user.idUser);
-                this.snackBar.open('✅ Accès utilisateur créé', 'Fermer', { duration: 3000 });
+                this.snackBar.open('✅ Accès utilisateur créé', 'Fermer', {duration: 3000});
             }
         });
     }

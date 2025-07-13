@@ -4,7 +4,7 @@
     <mat-toolbar class="user-toolbar" color="primary">
         <span>👥 Liste des utilisateurs</span>
         <span class="spacer"></span>
-        <button mat-icon-button color="accent" matTooltip="Ajouter un utilisateur">
+        <button color="accent" mat-icon-button matTooltip="Ajouter un utilisateur">
             <mat-icon>person_add</mat-icon>
         </button>
     </mat-toolbar>
@@ -12,50 +12,51 @@
     <!-- 🔍 Barre de recherche -->
     <mat-form-field appearance="outline" class="filter">
         <mat-label>Rechercher</mat-label>
-        <input matInput placeholder="Nom, prénom, rôle" (input)="applyFilter($event)" />
+        <input (input)="applyFilter($event)" matInput placeholder="Nom, prénom, rôle"/>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <!-- 🖥️ Table desktop -->
     <div class="user-table-wrapper">
-        <table mat-table [dataSource]="filteredUsers()" class="mat-elevation-z2 user-table" *ngIf="filteredUsers().length">
+        <table *ngIf="filteredUsers().length" [dataSource]="filteredUsers()" class="mat-elevation-z2 user-table"
+               mat-table>
 
             <!-- ID -->
             <ng-container matColumnDef="idUser">
-                <th mat-header-cell *matHeaderCellDef>#</th>
-                <td mat-cell *matCellDef="let u">{{ u.idUser }}</td>
+                <th *matHeaderCellDef mat-header-cell>#</th>
+                <td *matCellDef="let u" mat-cell>{{ u.idUser }}</td>
             </ng-container>
 
             <!-- Nom -->
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Nom</th>
-                <td mat-cell *matCellDef="let u">{{ u.name }}</td>
+                <th *matHeaderCellDef mat-header-cell>Nom</th>
+                <td *matCellDef="let u" mat-cell>{{ u.name }}</td>
             </ng-container>
 
             <!-- Prénom -->
             <ng-container matColumnDef="prename">
-                <th mat-header-cell *matHeaderCellDef>Prénom</th>
-                <td mat-cell *matCellDef="let u">{{ u.prename }}</td>
+                <th *matHeaderCellDef mat-header-cell>Prénom</th>
+                <td *matCellDef="let u" mat-cell>{{ u.prename }}</td>
             </ng-container>
 
             <!-- Rôle -->
             <ng-container matColumnDef="role">
-                <th mat-header-cell *matHeaderCellDef>Rôle</th>
-                <td mat-cell *matCellDef="let u">{{ u.role }}</td>
+                <th *matHeaderCellDef mat-header-cell>Rôle</th>
+                <td *matCellDef="let u" mat-cell>{{ u.role }}</td>
             </ng-container>
 
             <!-- Actions -->
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let u">
+                <th *matHeaderCellDef mat-header-cell>Actions</th>
+                <td *matCellDef="let u" mat-cell>
 
                     <!-- 👁️ Voir -->
-                    <button mat-icon-button color="primary" (click)="view(u)" matTooltip="Voir les détails">
+                    <button (click)="view(u)" color="primary" mat-icon-button matTooltip="Voir les détails">
                         <mat-icon>visibility</mat-icon>
                     </button>
 
                     <!-- ✏️ Modifier -->
-                    <button mat-icon-button color="accent" (click)="edit(u)" matTooltip="Modifier">
+                    <button (click)="edit(u)" color="accent" mat-icon-button matTooltip="Modifier">
                         <mat-icon>edit</mat-icon>
                     </button>
 
@@ -64,13 +65,13 @@
                         <mat-icon color="primary" matTooltip="Accès activé">vpn_key</mat-icon>
                     </ng-container>
                     <ng-template #noAccess>
-                        <button mat-icon-button color="warn" (click)="setAccess(u)" matTooltip="Donner accès">
+                        <button (click)="setAccess(u)" color="warn" mat-icon-button matTooltip="Donner accès">
                             <mat-icon>lock_open</mat-icon>
                         </button>
                     </ng-template>
 
                     <!-- 🗑️ Supprimer -->
-                    <button mat-icon-button color="warn" [disabled]="u.username" (click)="remove(u)">
+                    <button (click)="remove(u)" [disabled]="u.username" color="warn" mat-icon-button>
                         <mat-icon>delete</mat-icon>
                     </button>
 
@@ -79,16 +80,16 @@
             </ng-container>
 
 
-            <tr mat-header-row *matHeaderRowDef="['idUser', 'name', 'prename', 'role', 'actions']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['idUser', 'name', 'prename', 'role', 'actions']"></tr>
+            <tr *matHeaderRowDef="['idUser', 'name', 'prename', 'role', 'actions']" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: ['idUser', 'name', 'prename', 'role', 'actions']" mat-row></tr>
         </table>
     </div>
 
     <!-- 📱 Version mobile : cartes -->
     <div class="user-card-container">
-        <mat-card class="user-card mat-elevation-z3" *ngFor="let u of filteredUsers()">
+        <mat-card *ngFor="let u of filteredUsers()" class="user-card mat-elevation-z3">
             <mat-card-header>
-                <div mat-card-avatar class="user-avatar">
+                <div class="user-avatar" mat-card-avatar>
                     <mat-icon>person</mat-icon>
                 </div>
                 <mat-card-title>{{ u.name }} {{ u.prename }}</mat-card-title>
@@ -101,13 +102,13 @@
 
             <mat-card-actions align="end">
                 <!-- Table -->
-                <button mat-icon-button class="action-view" (click)="view(u)" matTooltip="Voir">
+                <button (click)="view(u)" class="action-view" mat-icon-button matTooltip="Voir">
                     <mat-icon>visibility</mat-icon>
                 </button>
-                <button mat-icon-button class="action-edit" (click)="edit(u)" matTooltip="Modifier">
+                <button (click)="edit(u)" class="action-edit" mat-icon-button matTooltip="Modifier">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button class="action-delete" (click)="remove(u)" matTooltip="Supprimer">
+                <button (click)="remove(u)" class="action-delete" mat-icon-button matTooltip="Supprimer">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-card-actions>

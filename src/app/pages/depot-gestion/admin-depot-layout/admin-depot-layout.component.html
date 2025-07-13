@@ -1,24 +1,24 @@
 <!-- admin-depot-layout.component.html -->
 <mat-card class="admin-depot-layout">
-    <h2>Dépôt: {{depotId()}}</h2>
-  <mat-card-title>🎯 Interface dépôt</mat-card-title>
+    <h2>Dépôt: {{ depotId() }}</h2>
+    <mat-card-title>🎯 Interface dépôt</mat-card-title>
 
-  <mat-card-content>
-    <!-- Navigation entre les sous-pages du dépôt -->
-    <nav class="nav-buttons">
-      <button routerLink="depotDashboard" routerLinkActive="active" mat-raised-button color="primary">
-        Dashboard
-      </button>
-      <button routerLink="vehicules" routerLinkActive="active" mat-raised-button color="primary">
-        Véhicules
-      </button>
-      <!-- Tu pourras ajouter d'autres boutons ici -->
+    <mat-card-content>
+        <!-- Navigation entre les sous-pages du dépôt -->
+        <nav class="nav-buttons">
+            <button color="primary" mat-raised-button routerLink="depotDashboard" routerLinkActive="active">
+                Dashboard
+            </button>
+            <button color="primary" mat-raised-button routerLink="vehicules" routerLinkActive="active">
+                Véhicules
+            </button>
+            <!-- Tu pourras ajouter d'autres boutons ici -->
 
-      <button routerLink="stock" mat-raised-button>Stock</button>
-      <button routerLink="technicians" mat-raised-button>Techniciens</button>
+            <button mat-raised-button routerLink="stock">Stock</button>
+            <button mat-raised-button routerLink="technicians">Techniciens</button>
 
-    </nav>
-    <!-- Contenu dynamique injecté ici -->
-    <router-outlet></router-outlet>
-  </mat-card-content>
+        </nav>
+        <!-- Contenu dynamique injecté ici -->
+        <router-outlet></router-outlet>
+    </mat-card-content>
 </mat-card>

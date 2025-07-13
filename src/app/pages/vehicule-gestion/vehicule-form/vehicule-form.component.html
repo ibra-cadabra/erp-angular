@@ -1,20 +1,20 @@
 <mat-card class="mat-elevation-z4 w-full max-w-xl mx-auto p-6 rounded-xl bg-white">
     <mat-card-title class="text-center text-2xl font-semibold mb-6">🚗 Ajouter un véhicule</mat-card-title>
     <mat-card-content>
-        <form [formGroup]="vehiculeForm" (ngSubmit)="submit()" class="form-container">
+        <form (ngSubmit)="submit()" [formGroup]="vehiculeForm" class="form-container">
 
             <!-- Immatriculation -->
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Immatriculation *</mat-label>
                 <input
-                        matInput
-                        formControlName="registrationPlate"
-                        required
                         (input)="onPlateInput($event)"
+                        formControlName="registrationPlate"
+                        matInput
                         placeholder="AA-123-BB"
+                        required
                 />
-                <mat-icon matSuffix *ngIf="vehiculeForm.get('registrationPlate')?.valid">check_circle</mat-icon>
-                <mat-icon matSuffix *ngIf="vehiculeForm.get('registrationPlate')?.invalid">error</mat-icon>
+                <mat-icon *ngIf="vehiculeForm.get('registrationPlate')?.valid" matSuffix>check_circle</mat-icon>
+                <mat-icon *ngIf="vehiculeForm.get('registrationPlate')?.invalid" matSuffix>error</mat-icon>
                 <mat-hint>Format : AA-123-BB</mat-hint>
                 <mat-error *ngIf="vehiculeForm.get('registrationPlate')!.hasError('required')">
                     Champ requis
@@ -30,7 +30,7 @@
             <!-- Marque -->
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Marque</mat-label>
-                <mat-select formControlName="brand" (selectionChange)="onBrandChange($event.value)">
+                <mat-select (selectionChange)="onBrandChange($event.value)" formControlName="brand">
                     <mat-option *ngFor="let brand of brands" [value]="brand">{{ brand }}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -56,7 +56,7 @@
             <!-- Description -->
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Description</mat-label>
-                <input matInput formControlName="description" placeholder="Facultatif" />
+                <input formControlName="description" matInput placeholder="Facultatif"/>
             </mat-form-field>
 
             <!-- Statut -->
@@ -88,7 +88,7 @@
 
             <!-- Bouton -->
             <div class="text-right mt-4">
-                <button mat-raised-button color="primary" type="submit" [disabled]="vehiculeForm.invalid || loading">
+                <button [disabled]="vehiculeForm.invalid || loading" color="primary" mat-raised-button type="submit">
                     {{ loading ? '⏳ Enregistrement...' : '💾 Enregistrer' }}
                 </button>
             </div>

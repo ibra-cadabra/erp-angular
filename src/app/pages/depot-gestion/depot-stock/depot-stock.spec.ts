@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DepotStock } from './depot-stock';
+import {DepotStock} from './depot-stock';
 
 describe('DepotStock', () => {
-  let component: DepotStock;
-  let fixture: ComponentFixture<DepotStock>;
+    let component: DepotStock;
+    let fixture: ComponentFixture<DepotStock>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DepotStock]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [DepotStock]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(DepotStock);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(DepotStock);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

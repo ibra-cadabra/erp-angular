@@ -1,8 +1,8 @@
-import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../environment/environment';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import {Injectable, signal} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../environment/environment';
+import {catchError, tap} from 'rxjs/operators';
+import {throwError} from 'rxjs';
 
 /** 🧪 Modèle d’un consommable avec seuil */
 export interface ConsumableAlert {
@@ -12,16 +12,16 @@ export interface ConsumableAlert {
     minThreshold: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AlertService {
-    private readonly apiUrl = `${environment.apiUrl}/alerts`;
-
     // 📦 Liste des consommables en alerte
     readonly lowStockConsumables = signal<ConsumableAlert[]>([]);
     readonly loading = signal(false);
     readonly error = signal<string | null>(null);
+    private readonly apiUrl = `${environment.apiUrl}/alerts`;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
     /** 🔄 Charger les consommables sous seuil */
     fetchLowStockConsumables(): void {
@@ -36,6 +36,6 @@ export class AlertService {
                     return throwError(() => err);
                 })
             )
-            .subscribe({ complete: () => this.loading.set(false) });
+            .subscribe({complete: () => this.loading.set(false)});
     }
 }

@@ -18,75 +18,75 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Date (YYYY-MM-DD)" [formControl]="dateCtrl">
+        <input [formControl]="dateCtrl" matInput placeholder="Date (YYYY-MM-DD)">
     </mat-form-field>
-    <button mat-stroked-button color="warn" (click)="resetFilters()">♻️ Réinitialiser</button>
+    <button (click)="resetFilters()" color="warn" mat-stroked-button>♻️ Réinitialiser</button>
 
-    <button mat-stroked-button color="primary" (click)="exportCSV()">📤 Exporter CSV</button>
+    <button (click)="exportCSV()" color="primary" mat-stroked-button>📤 Exporter CSV</button>
 </div>
 
 <div *ngIf="loading()" class="loading-container">
     <mat-spinner></mat-spinner>
 </div>
 
-<table mat-table [dataSource]="filteredHistory()" class="mat-elevation-z2">
+<table [dataSource]="filteredHistory()" class="mat-elevation-z2" mat-table>
     <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let h">{{ h.date | date: 'short' }}</td>
+        <th *matHeaderCellDef mat-header-cell>Date</th>
+        <td *matCellDef="let h" mat-cell>{{ h.date | date: 'short' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let h">{{ h.resourceType }}</td>
+        <th *matHeaderCellDef mat-header-cell>Type</th>
+        <td *matCellDef="let h" mat-cell>{{ h.resourceType }}</td>
     </ng-container>
 
     <ng-container matColumnDef="resource">
-        <th mat-header-cell *matHeaderCellDef>Ressource</th>
-        <td mat-cell *matCellDef="let h">
+        <th *matHeaderCellDef mat-header-cell>Ressource</th>
+        <td *matCellDef="let h" mat-cell>
             {{ getResourceName(h) }}
         </td>
     </ng-container>
 
 
     <ng-container matColumnDef="qte">
-        <th mat-header-cell *matHeaderCellDef>Qté</th>
-        <td mat-cell *matCellDef="let h">{{ h.quantity ?? '-' }}</td>
+        <th *matHeaderCellDef mat-header-cell>Qté</th>
+        <td *matCellDef="let h" mat-cell>{{ h.quantity ?? '-' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="tech">
-        <th mat-header-cell *matHeaderCellDef>Technicien</th>
-        <td mat-cell *matCellDef="let h">
+        <th *matHeaderCellDef mat-header-cell>Technicien</th>
+        <td *matCellDef="let h" mat-cell>
             {{ userService.getUserFromSignal(h.technicianId)?.prename }}
             {{ userService.getUserFromSignal(h.technicianId)?.name }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="auteur">
-        <th mat-header-cell *matHeaderCellDef>Auteur</th>
-        <td mat-cell *matCellDef="let h">
+        <th *matHeaderCellDef mat-header-cell>Auteur</th>
+        <td *matCellDef="let h" mat-cell>
             {{ userService.getUserFromSignal(h.createdBy)?.prename }}
             {{ userService.getUserFromSignal(h.createdBy)?.name }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let h">{{ h.action === 'attribution' ? 'Attribué' : 'Repris' }}</td>
+        <th *matHeaderCellDef mat-header-cell>Action</th>
+        <td *matCellDef="let h" mat-cell>{{ h.action === 'attribution' ? 'Attribué' : 'Repris' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="depot">
-        <th mat-header-cell *matHeaderCellDef>Dépôt</th>
-        <td mat-cell *matCellDef="let h">{{ h.depotId }}</td>
+        <th *matHeaderCellDef mat-header-cell>Dépôt</th>
+        <td *matCellDef="let h" mat-cell>{{ h.depotId }}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['date', 'type', 'resource', 'qte', 'tech', 'auteur', 'action', 'depot']"></tr>
-    <tr mat-row
-        *matRowDef="let row; columns: ['date', 'type', 'resource', 'qte', 'tech', 'auteur', 'action', 'depot']"
+    <tr *matHeaderRowDef="['date', 'type', 'resource', 'qte', 'tech', 'auteur', 'action', 'depot']" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: ['date', 'type', 'resource', 'qte', 'tech', 'auteur', 'action', 'depot']"
         [ngClass]="{
        'attribution-row': row.action === 'attribution',
        'retrait-row': row.action !== 'attribution'
-     }">
+     }"
+        mat-row>
     </tr>
 
 </table>
-<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 25]" [pageSize]="10" showFirstLastButtons></mat-paginator>

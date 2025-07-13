@@ -1,10 +1,10 @@
 <mat-card class="consumable-container">
     <mat-card-title>📦 Gestion des consommables</mat-card-title>
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form (ngSubmit)="submit()" [formGroup]="form">
         <mat-form-field appearance="fill">
             <mat-label>Nom*</mat-label>
-            <input type="text" matInput formControlName="name" [matAutocomplete]="auto" />
+            <input [matAutocomplete]="auto" formControlName="name" matInput type="text"/>
             <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let name of filteredNames | async" [value]="name">
                     {{ name }}
@@ -14,12 +14,12 @@
 
         <mat-form-field appearance="fill">
             <mat-label>Quantité*</mat-label>
-            <input type="number" matInput formControlName="quantity" />
+            <input formControlName="quantity" matInput type="number"/>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Prix unitaire</mat-label>
-            <input type="number" matInput formControlName="unitPrice" />
+            <input formControlName="unitPrice" matInput type="number"/>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
@@ -32,10 +32,10 @@
         </mat-form-field>
 
         <div class="form-buttons">
-            <button mat-raised-button color="primary" type="submit">
+            <button color="primary" mat-raised-button type="submit">
                 {{ editingId() ? 'Mettre à jour' : 'Ajouter' }}
             </button>
-            <button *ngIf="editingId()" mat-button type="button" (click)="cancelEdit()">Annuler</button>
+            <button (click)="cancelEdit()" *ngIf="editingId()" mat-button type="button">Annuler</button>
         </div>
     </form>
 
@@ -45,45 +45,45 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Recherche</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Nom ou quantité..." />
+        <input (keyup)="applyFilter($event)" matInput placeholder="Nom ou quantité..."/>
     </mat-form-field>
 
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+    <table [dataSource]="dataSource" class="mat-elevation-z2" mat-table matSort>
         <!-- Nom -->
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Nom</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
         </ng-container>
 
         <!-- Quantité -->
         <ng-container matColumnDef="stock">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantité</th>
-            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Quantité</th>
+            <td *matCellDef="let element" mat-cell>{{ element.quantity }}</td>
         </ng-container>
 
         <!-- Dépôt -->
         <ng-container matColumnDef="idDep">
-            <th mat-header-cell *matHeaderCellDef>Dépot</th>
-            <td mat-cell *matCellDef="let element">
+            <th *matHeaderCellDef mat-header-cell>Dépot</th>
+            <td *matCellDef="let element" mat-cell>
                 {{ getDepotName(element.idDep) }}
             </td>
         </ng-container>
 
         <!-- Actions -->
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="primary" (click)="edit(element)">
+            <th *matHeaderCellDef mat-header-cell>Actions</th>
+            <td *matCellDef="let element" mat-cell>
+                <button (click)="edit(element)" color="primary" mat-icon-button>
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="removeConsumable(element.idCons)">
+                <button (click)="removeConsumable(element.idCons)" color="warn" mat-icon-button>
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
     </table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>

@@ -1,40 +1,41 @@
 <mat-toolbar color="accent">Matériels du dépôt n°{{ depotId }}</mat-toolbar>
 
 <mat-card class="m-4">
-  <mat-card-title>Liste des matériels</mat-card-title>
-  <mat-card-content>
-    <table mat-table [dataSource]="materials()" class="mat-elevation-z8 w-full">
+    <mat-card-title>Liste des matériels</mat-card-title>
+    <mat-card-content>
+        <table [dataSource]="materials()" class="mat-elevation-z8 w-full" mat-table>
 
-      <!-- Nom -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Nom</th>
-        <td mat-cell *matCellDef="let mat">{{ mat.name }}</td>
-      </ng-container>
+            <!-- Nom -->
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell>Nom</th>
+                <td *matCellDef="let mat" mat-cell>{{ mat.name }}</td>
+            </ng-container>
 
-      <!-- Catégorie -->
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Catégorie</th>
-        <td mat-cell *matCellDef="let mat">{{ mat.category }}</td>
-      </ng-container>
+            <!-- Catégorie -->
+            <ng-container matColumnDef="category">
+                <th *matHeaderCellDef mat-header-cell>Catégorie</th>
+                <td *matCellDef="let mat" mat-cell>{{ mat.category }}</td>
+            </ng-container>
 
-      <!-- Quantité -->
-      <ng-container matColumnDef="quantity">
-        <th mat-header-cell *matHeaderCellDef>Quantité</th>
-        <td mat-cell *matCellDef="let mat">{{ mat.quantity }}</td>
-      </ng-container>
+            <!-- Quantité -->
+            <ng-container matColumnDef="quantity">
+                <th *matHeaderCellDef mat-header-cell>Quantité</th>
+                <td *matCellDef="let mat" mat-cell>{{ mat.quantity }}</td>
+            </ng-container>
 
-      <!-- Actions -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let material">
-          <button mat-icon-button color="primary" routerLink="/depots/{{ depotId }}/materials/{{ material.idMat }}/add">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+            <!-- Actions -->
+            <ng-container matColumnDef="actions">
+                <th *matHeaderCellDef mat-header-cell>Actions</th>
+                <td *matCellDef="let material" mat-cell>
+                    <button color="primary" mat-icon-button
+                            routerLink="/depots/{{ depotId }}/materials/{{ material.idMat }}/add">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </mat-card-content>
+            <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        </table>
+    </mat-card-content>
 </mat-card>

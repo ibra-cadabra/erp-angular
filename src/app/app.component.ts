@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AuthService } from './services/auth.service';
+import {Component} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {AuthService} from './services/auth.service';
 import {MaterialModule} from "./modules/material.module";
 import {RouterModule, RouterOutlet} from "@angular/router";
 import {CommonModule} from "@angular/common";
@@ -15,9 +15,6 @@ import {LoaderComponent} from "./pages/shared/loader/loader.component";
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    title(title: any) {
-        throw new Error('Method not implemented.');
-    }
     drawerMode: 'side' | 'over' = 'side';
     drawerOpened = true;
 
@@ -30,9 +27,13 @@ export class AppComponent {
         this.userService.loadUsers();
     }
 
+    title(title: any) {
+        throw new Error('Method not implemented.');
+    }
+
     ngOnInit() {
         this.observer.observe([Breakpoints.Handset, Breakpoints.Tablet])
-            .subscribe(({ matches }) => {
+            .subscribe(({matches}) => {
                 this.drawerMode = matches ? 'over' : 'side';
                 this.drawerOpened = !matches;
                 console.log('📱 Format détecté :', matches ? 'Mobile/Tablette' : 'Desktop');

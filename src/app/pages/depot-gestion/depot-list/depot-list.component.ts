@@ -14,78 +14,76 @@ import {MaterialModule} from "../../../modules/material.module";
 import {CommonModule} from "@angular/common";
 
 @Component({
-  selector: 'app-depot-list',
-  templateUrl: './depot-list.component.html',
-  standalone: true,
-  imports: [MaterialModule, RouterLink, CommonModule],
-  styleUrls: ['./depot-list.component.scss']
+    selector: 'app-depot-list',
+    templateUrl: './depot-list.component.html',
+    standalone: true,
+    imports: [MaterialModule, RouterLink, CommonModule],
+    styleUrls: ['./depot-list.component.scss']
 })
 export class DepotListComponent implements OnInit {
-  private depotService = inject(DepotService);
-  private userService = inject(UserService);
-  private dialog = inject(MatDialog);
-  private router = inject(Router);
+    dataSource = new MatTableDataSource<Depot>([]);
+    displayedColumns: string[] = ['name', 'manager', 'stock', 'actions'];
+    @ViewChild(MatSort) sort!: MatSort;
+    private depotService = inject(DepotService);
+    private userService = inject(UserService);
+    private dialog = inject(MatDialog);
+    private router = inject(Router);
 
-  dataSource = new MatTableDataSource<Depot>([]);
-  displayedColumns: string[] = ['name', 'manager', 'stock', 'actions'];
+    ngOnInit(): void {
+        this.depotService.fetchDepots();
+        this.depotService.resources(); // charge les ressources si déjà disponibles
 
-  @ViewChild(MatSort) sort!: MatSort;
+        // Mise à jour de la dataSource dès que les dépôts sont prêts
+        this.dataSource.data = this.depotService.depots();
+        this.dataSource.sort = this.sort;
+    }
 
-  ngOnInit(): void {
-    this.depotService.fetchDepots();
-    this.depotService.resources(); // charge les ressources si déjà disponibles
+    // 🔍 Filtrage du tableau selon l’input utilisateur
+    applyFilter(event: Event): void {
+        this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    }
 
-    // Mise à jour de la dataSource dès que les dépôts sont prêts
-    this.dataSource.data = this.depotService.depots();
-    this.dataSource.sort = this.sort;
-  }
+    // 👤 Récupère le nom du gérant associé au dépôt
+    getManagerName(managerId?: number): string | null {
+        if (!managerId) return null;
+        const user = this.userService.getUserFromSignal(managerId);
+        return user ? `${user.name} ${user.prename}` : null;
+    }
 
-  // 🔍 Filtrage du tableau selon l’input utilisateur
-  applyFilter(event: Event): void {
-    this.dataSource.filter = (event.target as HTMLInputElement).value.trim().toLowerCase();
-  }
+    // 📦 Calcule le total des ressources associées à un dépôt
+    getResourceCount(idDep: number): number {
+        const r = this.depotService.resources();
+        return r.materials.filter(m => m.idDep === idDep).length +
+            r.consumables.filter(c => c.idDep === idDep).length +
+            r.vehicules.filter(v => v.idDep === idDep).length;
+    }
 
-  // 👤 Récupère le nom du gérant associé au dépôt
-  getManagerName(managerId?: number): string | null {
-    if (!managerId) return null;
-    const user = this.userService.getUserFromSignal(managerId);
-    return user ? `${user.name} ${user.prename}` : null;
-  }
+    // 🛠️ Ouvre la modale d’édition
+    editDepot(depot: Depot): void {
+        const dialogRef = this.dialog.open(EditDepotDialogComponent, {
+            data: {idDep: depot.idDep, name: depot.name}
+        });
 
-  // 📦 Calcule le total des ressources associées à un dépôt
-  getResourceCount(idDep: number): number {
-    const r = this.depotService.resources();
-    return r.materials.filter(m => m.idDep === idDep).length +
-        r.consumables.filter(c => c.idDep === idDep).length +
-        r.vehicules.filter(v => v.idDep === idDep).length;
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) this.depotService.fetchDepots();
+        });
+    }
 
-  // 🛠️ Ouvre la modale d’édition
-  editDepot(depot: Depot): void {
-    const dialogRef = this.dialog.open(EditDepotDialogComponent, {
-      data: { idDep: depot.idDep, name: depot.name }
-    });
+    // 🗑️ Ouvre la modale de suppression
+    deleteDepot(depot: Depot): void {
+        const dialogRef = this.dialog.open(DeleteDepotDialogComponent, {
+            data: {idDep: depot.idDep}
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) this.depotService.fetchDepots();
-    });
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) this.depotService.fetchDepots();
+        });
+    }
 
-  // 🗑️ Ouvre la modale de suppression
-  deleteDepot(depot: Depot): void {
-    const dialogRef = this.dialog.open(DeleteDepotDialogComponent, {
-      data: { idDep: depot.idDep }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) this.depotService.fetchDepots();
-    });
-  }
-
-  // 📜 Redirige vers la page d’historique
-  openHistory(depot: Depot): void {
-    this.router.navigate(['/admin-attributions'], {
-      queryParams: { idDep: depot.idDep }
-    }).then();
-  }
+    // 📜 Redirige vers la page d’historique
+    openHistory(depot: Depot): void {
+        this.router.navigate(['/admin-attributions'], {
+            queryParams: {idDep: depot.idDep}
+        }).then();
+    }
 }

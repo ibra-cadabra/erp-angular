@@ -1,6 +1,7 @@
 .snackbar-success {
-  background-color: #4caf50;
+    background-color: #4caf50;
 }
+
 .snackbar-error {
-  background-color: #f44336;
+    background-color: #f44336;
 }
