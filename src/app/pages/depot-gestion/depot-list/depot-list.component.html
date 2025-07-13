@@ -1,29 +1,72 @@
-<!-- depot-list.component.html -->
-<mat-table [dataSource]="depots()" class="mat-elevation-z2">
+<!-- ✅ Titre de la page -->
+<h2 class="depot-list-title">🏢 Liste des dépôts</h2>
 
-  <!-- Nom du dépôt -->
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Nom </mat-header-cell>
-    <mat-cell *matCellDef="let depot"> {{ depot.name }} </mat-cell>
-  </ng-container>
+<!-- 🔍 Barre de recherche -->
+<mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Rechercher un dépôt</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Nom, gérant..." />
+    <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
 
-  <!-- Actions -->
-  <ng-container matColumnDef="actions">
-    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell *matCellDef="let depot">
-      <button mat-icon-button (click)="editDepot(depot)" matTooltip="Modifier">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" (click)="deleteDepot(depot)" matTooltip="Supprimer">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" [routerLink]="['/admin-depot']" [queryParams]="{ idDep: depot.idDep }" matTooltip="Gérer">
-        <mat-icon>manage_accounts</mat-icon>
-      </button>
-    </mat-cell>
-  </ng-container>
+<!-- 🧱 Tableau des dépôts -->
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
 
-  <mat-header-row *matHeaderRowDef="['name', 'actions']"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: ['name', 'actions']"></mat-row>
+    <!-- 🏷️ Nom du dépôt -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+        <mat-cell *matCellDef="let depot"> {{ depot.name }} </mat-cell>
+    </ng-container>
+
+    <!-- 👤 Gérant (si applicable) -->
+    <ng-container matColumnDef="manager">
+        <mat-header-cell *matHeaderCellDef>Gérant</mat-header-cell>
+        <mat-cell *matCellDef="let depot">
+            {{ getManagerName(depot.managerId) || 'Aucun' }}
+        </mat-cell>
+    </ng-container>
+
+    <!-- 📦 Nombre de ressources -->
+    <ng-container matColumnDef="stock">
+        <mat-header-cell *matHeaderCellDef>Ressources</mat-header-cell>
+        <mat-cell *matCellDef="let depot">
+            {{ getResourceCount(depot.idDep) }} items
+        </mat-cell>
+    </ng-container>
+
+    <!-- ⚙️ Actions regroupées -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let depot">
+
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu d'action">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <!-- 📋 Menu d’actions -->
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="editDepot(depot)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="deleteDepot(depot)">
+                    <mat-icon color="warn">delete</mat-icon>
+                    <span>Supprimer</span>
+                </button>
+                <button mat-menu-item [routerLink]="['/admin-depot']" [queryParams]="{ idDep: depot.idDep }">
+                    <mat-icon>manage_accounts</mat-icon>
+                    <span>Gérer</span>
+                </button>
+                <button mat-menu-item (click)="openHistory(depot)">
+                    <mat-icon>history</mat-icon>
+                    <span>Historique</span>
+                </button>
+            </mat-menu>
+
+        </mat-cell>
+    </ng-container>
+
+    <!-- 🧱 Lignes du tableau -->
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
 </mat-table>

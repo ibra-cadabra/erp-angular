@@ -1,14 +1,71 @@
-@use '@angular/material' as mat;
+/* 🎨 Palette sombre personnalisée */
+$bg-color: #121212;
+$card-color: #1e1e1e;
+$text-color: #ffffff;
+$secondary-text-color: #b0b0b0;
+$accent-color: #90caf9;
+$danger-color: #ef5350;
 
-// ✅ Palette M3 native fournie par Angular Material
-$my-theme: mat.define-theme((
-        color: (
-                primary: mat.$mblue,
-                tertiary: mat.$m3-purple
-        ),
-        typography: mat.m2-define-typography-config(),
-        density: 0
-));
+/* ✅ Appliquer le thème globalement */
+body {
+  background-color: $bg-color;
+  color: $text-color;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-@include mat.core();
-@include mat.all-component-themes($my-theme);
+/* ✅ Cartes ou sections */
+mat-card, .mat-card, .card, .container, .panel {
+  background-color: $card-color;
+  color: $text-color;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ✅ Boutons */
+button, .btn {
+  background-color: $accent-color;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: lighten($accent-color, 5%);
+  }
+
+  &.danger {
+    background-color: $danger-color;
+    color: white;
+
+    &:hover {
+      background-color: darken($danger-color, 5%);
+    }
+  }
+}
+
+/* ✅ Champs de formulaire */
+input, select, textarea {
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #555;
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* ✅ Liens */
+a {
+  color: $accent-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

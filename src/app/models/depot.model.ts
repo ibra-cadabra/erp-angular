@@ -11,5 +11,5 @@ export interface Depot {
   location: string;
   createdAt?: Date;
   updatedAt?: Date;
-  managedBy?: string;
+  managedBy?: number;
 }

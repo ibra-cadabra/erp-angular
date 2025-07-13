@@ -1,17 +1,43 @@
 .admin-depot-layout {
-    padding: 1rem;
-    margin: 1rem;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 20px;
+  border-radius: 12px;
+
+  h2,
+  mat-card-title {
+    color: #ffffff;
+    margin-bottom: 12px;
   }
-  
+
+  mat-card-content {
+    background-color: #2c2c2c;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
   .nav-buttons {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    button {
+      background-color: #3f51b5;
+      color: white;
+
+      &.active {
+        background-color: #5c6bc0;
+      }
+    }
   }
-  
-  .active {
-    background-color: #1976d2 !important;
+
+  ::ng-deep .mat-card {
+    background-color: #2c2c2c;
+    color: #ffffff;
+  }
+
+  ::ng-deep .mat-raised-button {
+    background-color: #3f51b5;
     color: white;
   }
-  
+}

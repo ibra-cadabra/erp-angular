@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container" *ngIf="isLogged(); else loginPage">
     <!-- 🧭 Barre latérale (optionnelle) -->
-    <mat-sidenav mode="side" opened class="sidenav" *ngIf="isLogged()">
+    <mat-sidenav mode="side" opened class="sidenav">
         <mat-toolbar>MENU</mat-toolbar>
         <mat-nav-list>
             <a mat-list-item routerLink="/admin-dashboard" *ngIf="isLogged()">Dashboard</a>
@@ -17,7 +17,7 @@
         <mat-toolbar color="dark-toolbar">
             <span>FX Network</span>
             <span class="spacer"></span>
-            <button mat-button *ngIf="isLogged()" (click)="auth.logout()">Se déconnecter</button>
+            <button mat-button *ngIf="isLogged()" (click)="authService.logout()">Se déconnecter</button>
         </mat-toolbar>
 
         <!-- 🌐 Contenu routé -->

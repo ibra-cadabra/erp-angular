@@ -14,7 +14,7 @@ import { NgChartsModule } from 'ng2-charts';
   standalone: true,
   imports: [MaterialModule, RouterModule, NgChartsModule, CommonModule],
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css'],
+  styleUrls: ['./admin-dashboard.component.scss'],
 })
 export class AdminDashboardComponent {
   totalUsers = 0;

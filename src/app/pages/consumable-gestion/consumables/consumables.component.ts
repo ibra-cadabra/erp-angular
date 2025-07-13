@@ -1,3 +1,4 @@
+// consumables.component.ts
 import { Component, effect, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,7 +24,7 @@ import { ConfirmDialog } from '../../features/confirmDialog';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule],
   templateUrl: './consumables.component.html',
-  styleUrls: ['./consumables.component.css']
+  styleUrls: ['./consumables.component.scss']
 })
 export class ConsumablesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -108,6 +109,12 @@ export class ConsumablesComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.names.filter(name => name.toLowerCase().includes(filterValue));
   }
+
+  getDepotName(idDep: number): string {
+    const depot = this.depots()?.find(d => d.idDep === idDep);
+    return depot?.name || 'Inconnu';
+  }
+
 
   submit() {
     if (this.form.invalid) return;

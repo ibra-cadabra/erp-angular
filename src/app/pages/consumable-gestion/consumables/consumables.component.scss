@@ -1,0 +1,62 @@
+.consumable-container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 24px;
+  border-radius: 12px;
+
+  h2, mat-card-title {
+    color: #ffffff;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    mat-form-field {
+      background-color: #2c2c2c;
+      border-radius: 6px;
+      padding: 6px 12px;
+      color: #ffffff;
+
+      .mat-form-field-wrapper {
+        background-color: transparent;
+      }
+
+      .mat-input-element,
+      .mat-select-value {
+        color: #ffffff;
+      }
+
+      .mat-placeholder,
+      .mat-form-field-label {
+        color: #b0b0b0 !important;
+      }
+
+      .mat-form-field-underline {
+        background-color: #64b5f6;
+      }
+
+      .mat-form-field-ripple {
+        background-color: #64b5f6;
+      }
+    }
+
+    button {
+      background-color: #64b5f6;
+      color: white;
+      font-weight: 500;
+
+      &:hover {
+        background-color: #42a5f5;
+      }
+    }
+  }
+
+  .mat-card {
+    background-color: #2b2b2b;
+    color: #fff;
+  }
+}

@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+mat-table {
+  width: 100%;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  overflow: hidden;
+
+  mat-header-row, mat-row {
+    transition: background-color 0.3s ease;
+  }
+
+  mat-header-cell {
+    background-color: #1a1a1a;
+    color: #90caf9;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  mat-cell {
+    padding: 12px;
+    color: #e0e0e0;
+  }
+
+  mat-row:hover {
+    background-color: #333;
+    cursor: pointer;
+  }
+
+  mat-icon {
+    color: #64b5f6;
+  }
+
+  button[mat-icon-button] {
+    margin-right: 4px;
+
+    &:hover {
+      background-color: rgba(100, 181, 246, 0.1);
+    }
+  }
+
+  button[color="warn"] mat-icon {
+    color: #ef5350;
+  }
+
+  button[color="primary"] mat-icon {
+    color: #64b5f6;
+  }
+}

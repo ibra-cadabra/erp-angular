@@ -1,0 +1,14 @@
+<!-- ✅ depot-stock.component.html -->
+<mat-card class="depot-section">
+    <mat-card-title>📦 Matériels disponibles dans le dépôt</mat-card-title>
+    <mat-card-content>
+        <mat-list *ngIf="resources().materials.length > 0; else noMaterial">
+            <mat-list-item *ngFor="let m of resources().materials">
+                {{ m.name }} — Stock : {{ m.stock }} {{ m.unit || '' }}
+            </mat-list-item>
+        </mat-list>
+        <ng-template #noMaterial>
+            <p class="text-muted">Aucun matériel disponible dans ce dépôt.</p>
+        </ng-template>
+    </mat-card-content>
+</mat-card>

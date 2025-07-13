@@ -1,0 +1,16 @@
+
+<!-- ✅ depot-technician.component.html -->
+<mat-card class="depot-section">
+    <mat-card-title>👷 Techniciens du dépôt</mat-card-title>
+    <mat-card-content>
+        <div class="tech-list">
+            <mat-card *ngFor="let tech of technicians" class="tech-card">
+                <mat-card-title>{{ tech.name }} {{ tech.prename }}</mat-card-title>
+                <mat-card-subtitle>Email : {{ tech.email }}</mat-card-subtitle>
+            </mat-card>
+            <p *ngIf="technicians.length === 0" class="text-muted">
+                Aucun technicien assigné à ce dépôt.
+            </p>
+        </div>
+    </mat-card-content>
+</mat-card>

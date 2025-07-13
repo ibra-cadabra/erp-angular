@@ -148,4 +148,15 @@ export class AuthService {
     const refreshToken = localStorage.getItem('refreshToken');
     return this.http.post<{ accessToken: string }>(`${this.apiUrl}/refresh`, { refreshToken });
   }
+
+  // auth.service.ts
+  getCurrentRole(): string | null {
+    return this.getCurrentUser()?.role || null;
+  }
+
+  isAdminOrDirigeant(): boolean {
+    const role = this.getCurrentRole();
+    return role === 'administrateur' || role === 'dirigeant';
+  }
+
 }

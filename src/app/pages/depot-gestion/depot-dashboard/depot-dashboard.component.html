@@ -1,17 +1,28 @@
-<!-- ✅ depot-dashboard.component.html : Interface de gestion du dépôt -->
-<script src="../../../../../../../../AppData/Local/Temp/depot-dashboard.component.ts"></script>
 <mat-card *ngIf="depotId()">
     <mat-card-title>📦 Gestion du dépôt n°{{ depotId() }}</mat-card-title>
     <mat-card-content>
 
-        <!-- 🎛️ Filtres de recherche -->
+        <mat-card>
+            <mat-card-title>🔔 Alertes de stock</mat-card-title>
+            <mat-card-content *ngIf="alerts().length > 0; else noAlert">
+                <mat-list>
+                    <mat-list-item *ngFor="let c of alerts(); trackBy: trackById">
+                        {{ c.name }} — Stock : {{ c.quantity }} / Seuil : {{ c.minThreshold }}
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+        <ng-template #noAlert>
+            <p class="text-muted">✅ Aucun consommable sous seuil actuellement.</p>
+        </ng-template>
+
         <h3>🔎 Filtres</h3>
         <div class="filters">
             <mat-form-field>
                 <mat-label>Technicien</mat-label>
                 <mat-select [value]="selectedTechId()" (selectionChange)="onSelectTech($event.value)">
                     <mat-option [value]="null">Tous</mat-option>
-                    <mat-option *ngFor="let tech of techniciens()" [value]="tech.idUser">
+                    <mat-option *ngFor="let tech of techniciens(); trackBy: trackById" [value]="tech.idUser">
                         {{ tech.name }} {{ tech.prename }}
                     </mat-option>
                 </mat-select>
@@ -23,10 +34,9 @@
             </mat-form-field>
         </div>
 
-        <!-- 👷 Liste des techniciens rattachés -->
         <h3>👷 Techniciens rattachés</h3>
         <div class="tech-list">
-            <mat-card *ngFor="let tech of techniciens()" class="tech-card">
+            <mat-card *ngFor="let tech of techniciens(); trackBy: trackById" class="tech-card">
                 <mat-card-title>{{ tech.name }} {{ tech.prename }}</mat-card-title>
                 <mat-card-subtitle>{{ tech.email }}</mat-card-subtitle>
                 <button mat-button color="primary" (click)="openAttributionDialog(tech)">
@@ -35,12 +45,6 @@
             </mat-card>
         </div>
 
-
-        <ng-template #noResources>
-            <mat-card class="text-muted">Aucune ressource attribuée actuellement.</mat-card>
-        </ng-template>
-
-        <!-- 🧾 Historique des attributions -->
         <h3 style="margin-top: 2rem;">📜 Historique des attributions</h3>
         <mat-progress-bar *ngIf="attributionService.loading()" mode="indeterminate"></mat-progress-bar>
 
@@ -60,9 +64,7 @@
 
             <ng-container matColumnDef="resource">
                 <mat-header-cell *matHeaderCellDef> Ressource </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    {{ getResourceLabel(row) }}
-                </mat-cell>
+                <mat-cell *matCellDef="let row"> {{ getResourceLabel(row) }} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="author">
@@ -84,9 +86,7 @@
 
             <ng-container matColumnDef="quantity">
                 <mat-header-cell *matHeaderCellDef> Quantité </mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    {{ row.quantity ?? '-' }}
-                </mat-cell>
+                <mat-cell *matCellDef="let row"> {{ row.quantity ?? '-' }} </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="['date', 'technician', 'resource', 'author', 'action', 'quantity']"></mat-header-row>

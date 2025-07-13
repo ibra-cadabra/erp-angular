@@ -21,13 +21,14 @@ import { Depot } from '../../../models/depot.model';
 import { MaterialModule } from '../../../modules/material.module';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AuthService} from "../../../services/auth.service";
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
     selector: 'app-depot-dashboard',
     standalone: true,
     imports: [CommonModule, MaterialModule, FormsModule, MatButton],
     templateUrl: './depot-dashboard.component.html',
-    styleUrls: ['./depot-dashboard.component.css']
+    styleUrls: ['./depot-dashboard.component.scss']
 })
 export class DepotDashboardComponent implements OnInit {
     protected depotService = inject(DepotService);
@@ -37,6 +38,7 @@ export class DepotDashboardComponent implements OnInit {
     private dialog = inject(MatDialog);
     private snackBar = inject(MatSnackBar);
     private auth = inject(AuthService);
+    alertService = inject(AlertService);
 
     dataSource = new MatTableDataSource<AttributionHistory>();
 
@@ -87,7 +89,10 @@ export class DepotDashboardComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.alertService.fetchLowStockConsumables();
+    }
+    alerts = computed(() => this.alertService.lowStockConsumables());
 
     onSelectTech(id: number | null) {
         this.selectedTechId.set(id);
@@ -165,5 +170,10 @@ export class DepotDashboardComponent implements OnInit {
             });
         }
     }
+
+    trackById(index: number, item: any): any {
+        return item?.idUser || item?._id || index;
+    }
+
 
 }

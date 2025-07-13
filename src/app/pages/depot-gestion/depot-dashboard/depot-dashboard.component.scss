@@ -1,0 +1,114 @@
+/* 🎨 Thème sombre local pour DepotDashboardComponent */
+
+:host {
+  display: block;
+  background-color: #121212;
+  color: #ffffff;
+  padding: 1rem;
+}
+
+/* ✅ Cartes */
+mat-card {
+  background-color: #1e1e1e;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1.5rem;
+}
+
+/* ✅ Sections titres */
+h3 {
+  color: #90caf9;
+  margin-top: 2rem;
+  font-weight: 500;
+}
+
+/* ✅ Filtres */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+/* ✅ Techniciens */
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .tech-card {
+    flex: 1 1 250px;
+    background-color: #2a2a2a;
+    color: white;
+  }
+}
+
+/* ✅ Ressources attribuées */
+.resource-item,
+mat-list-item {
+  background-color: #2a2a2a;
+  color: white;
+  border-left: 4px solid #90caf9;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+
+  .qty {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+  }
+}
+
+/* ✅ Boutons */
+button,
+.mat-mdc-button {
+  background-color: #90caf9;
+  color: #000 !important;
+  font-weight: 500;
+
+  &:hover {
+    background-color: lighten(#90caf9, 5%);
+  }
+
+  &.mat-warn {
+    background-color: #ef5350 !important;
+    color: white !important;
+  }
+}
+
+/* ✅ Table d’historique */
+mat-table {
+  background-color: #1e1e1e;
+  color: white;
+  border-radius: 4px;
+}
+
+mat-header-cell {
+  color: #90caf9;
+  font-weight: bold;
+}
+
+mat-cell {
+  border-bottom: 1px solid #333;
+}
+
+/* ✅ État (attribution / reprise) */
+.text-success {
+  color: #66bb6a;
+}
+
+.text-warn {
+  color: #ef5350;
+}
+
+/* ✅ Snackbar (optionnel) */
+.mat-mdc-snack-bar-container {
+  background: #333 !important;
+  color: white !important;
+}

@@ -14,7 +14,7 @@ import { DepotContextService } from '../../../services/depotContexteService';
   standalone: true,
   imports: [MaterialModule, NgFor, CommonModule],
   templateUrl: './vehicule-attribution.component.html',
-  styleUrls: ['./vehicule-attribution.component.css']
+  styleUrls: ['./vehicule-attribution.component.scss']
 })
 export class VehiculeAttributionComponent implements OnInit {
   private depotService = inject(DepotService);

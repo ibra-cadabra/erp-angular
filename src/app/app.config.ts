@@ -2,7 +2,7 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {provideHttpClient, withFetch, withInterceptors} from '@angular/common/http';
 
 import { appRoutes } from './app.routes';
 import { AuthInterceptor } from './pages/interceptor/auth.interceptor';
@@ -14,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(
+        withFetch(),
         withInterceptors([
           loaderInterceptor,
           AuthInterceptor // toujours après le loader

@@ -22,7 +22,7 @@ export class AppComponent {
     drawerOpened = true;
 
     constructor(
-        public auth: AuthService,
+        public authService: AuthService,
         private depotService: DepotService,
         private userService: UserService,
         private observer: BreakpointObserver) {
@@ -40,14 +40,14 @@ export class AppComponent {
     }
 
     isLogged(): boolean {
-        return this.auth.isLogged();
+        return this.authService.isLogged();
     }
 
     logout() {
-        this.auth.logout();
+        this.authService.logout();
     }
 
     userRole(): string | null {
-        return this.auth.getCurrentUser()?.role ?? null;
+        return this.authService.getCurrentUser()?.role ?? null;
     }
 }

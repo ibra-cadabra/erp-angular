@@ -1,0 +1,77 @@
+.dashboard-container {
+  padding: 2rem;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  min-height: 100vh;
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 2rem;
+    color: #ffffff;
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .stat-card {
+      background-color: #2c2c2c;
+      border-radius: 10px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+      text-decoration: none;
+      display: block;
+      color: inherit;
+
+      &:hover {
+        background-color: #333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(100, 181, 246, 0.3);
+      }
+
+      mat-card-title {
+        font-size: 18px;
+        color: #90caf9;
+      }
+
+      mat-card-content {
+        font-size: 26px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .history-card, .chart-card {
+    background-color: #2c2c2c;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    color: #e0e0e0;
+
+    mat-card-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    mat-card-content {
+      p {
+        margin-bottom: 1rem;
+      }
+
+      button {
+        background-color: #64b5f6;
+        color: #fff;
+        font-weight: 500;
+
+        &:hover {
+          background-color: #42a5f5;
+        }
+      }
+    }
+  }
+}

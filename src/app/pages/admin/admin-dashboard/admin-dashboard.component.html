@@ -3,19 +3,22 @@
 
     <!-- Section résumé -->
     <div class="summary-cards">
-        <mat-card class="stat-card">
+        <mat-card class="stat-card" routerLink="/users">
             <mat-card-title>👤 Utilisateurs</mat-card-title>
             <mat-card-content>{{ totalUsers }}</mat-card-content>
         </mat-card>
-        <mat-card class="stat-card">
+
+        <mat-card class="stat-card" routerLink="/list-depot">
             <mat-card-title>🏢 Dépôts</mat-card-title>
             <mat-card-content>{{ totalDepots }}</mat-card-content>
         </mat-card>
-        <mat-card class="stat-card">
+
+        <mat-card class="stat-card" routerLink="/vehicules">
             <mat-card-title>🚐 Véhicules</mat-card-title>
             <mat-card-content>{{ totalVehicules }}</mat-card-content>
         </mat-card>
-        <mat-card class="stat-card">
+
+        <mat-card class="stat-card" routerLink="/materials">
             <mat-card-title>🛠️ Matériels</mat-card-title>
             <mat-card-content>{{ totalMaterials }}</mat-card-content>
         </mat-card>
